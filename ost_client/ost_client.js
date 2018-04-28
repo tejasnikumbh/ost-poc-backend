@@ -4,22 +4,21 @@ const ostUtils = require('./utils/ost-utils.js')
 const axios = require('axios');
 
 const baseUrl = "https://playgroundapi.ost.com"
-const createOSTUser = () => {
-  var user = {
-    name: "Tejas Nikumbh"
-  };
+
+
+const createOSTUser = (user) => {
+  var endpoint = '/users/create';
   var inputParams = { "name": user.name};
   var timestamp = ostUtils.secondsSinceEpoch();
 
   var queryString = ostUtils.generateQueryString(
-    '/users/create', inputParams,
+    endpoint, inputParams,
     apiKey, timestamp);
   var signature = ostUtils.generateApiSignature(queryString, secret);
 
-
   axios({
     method: 'post',
-    url: `${baseUrl}/users/create`,
+    url: `${baseUrl}${endpoint}`,
     data: {
       api_key: apiKey,
       name: user.name,
@@ -34,11 +33,36 @@ const createOSTUser = () => {
 
 };
 
-const getOSTUsers = () => {
-  var inputParams = {page_no: 3, order_by: "name", order: "asc"};
+const editOSTUser = (newUser) => {
+  var endpoint = '/users/edit';
+  var inputParams = {uuid: newUser.id, name: newUser.name};
   var timeStamp = ostUtils.secondsSinceEpoch();
   var queryString = ostUtils.generateQueryString(
-    '/users/list', inputParams,
+    endpoint, inputParams,
+    apiKey, timeStamp);
+  var signature = ostUtils.generateApiSignature(queryString, secret);
+  console.log(queryString);
+  console.log(signature);
+  var url = `${baseUrl}/users/edit?api_key=${apiKey}&name=${newUser.name}&request_timestamp=${timeStamp}&signature=${signature}&uuid=${newUser.id}`;
+  console.log(url);
+  axios({
+    method: 'post',
+    url: url,
+    data: {}
+  }).then((res) => {
+    console.log(`Success~!`);
+    console.log(res.data.data);
+  }).catch((err) => {
+    console.log(`Error: ${err}`);
+  });
+}
+
+const getOSTUsers = () => {
+  var endpoint = '/users/list';
+  var inputParams = {page_no: 1, order_by: "name", order: "asc"};
+  var timeStamp = ostUtils.secondsSinceEpoch();
+  var queryString = ostUtils.generateQueryString(
+    endpoint, inputParams,
     apiKey, timeStamp);
   var signature = ostUtils.generateApiSignature(queryString, secret);
 
@@ -57,5 +81,6 @@ const getOSTUsers = () => {
 
 module.exports = {
   createOSTUser,
+  editOSTUser,
   getOSTUsers
 }
