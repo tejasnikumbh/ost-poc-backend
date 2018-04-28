@@ -5,7 +5,7 @@ Repository for POC for OST Developer KIT alpha
 # Installation Instructions
 After cloning the repository, make sure you have node installed.Then follow the steps
 
-- Run the following command to setup all node_modules
+- Run the following command to setup all dependencies
 ```javascript
 npm install
 ```
