@@ -3,9 +3,9 @@ Repository for POC for OST Developer KIT alpha
 # Backend Architecture
 ![alt text](https://github.com/tejasnikumbh/ost-poc/blob/master/resources/backend_architecture.png)
 # Installation Instructions
-After cloning the repository, make sure you have node installed.
+After cloning the repository, make sure you have node installed.Then follow the steps
 
-- Run the following commands to setup all node_modules
+- Run the following command to setup all node_modules
 ```javascript
 npm install
 ```
