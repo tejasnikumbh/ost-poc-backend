@@ -14,7 +14,6 @@ npm install
 ```javascript
 var ostAPIKey = "<Your OST Developer KIT API Key>";
 var ostSecret = "<Your OST Developer KIT Secret>";
-var ostCompanyUUID = "<Your OST Company uuid>";
 
 module.exports = {
   apiKey: ostAPIKey,
