@@ -17,8 +17,7 @@ var ostSecret = "<Your OST Developer KIT Secret>";
 
 module.exports = {
   apiKey: ostAPIKey,
-  secret: ostSecret,
-  companyUUID: ostCompanyUUID
+  secret: ostSecret
 }
 ```
 
