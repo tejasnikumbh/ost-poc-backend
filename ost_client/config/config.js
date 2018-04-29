@@ -1,7 +1,9 @@
-const env = process.env.NODE_ENV || 'development';
-console.log(`env ******`, env);
-if(env == 'development') {
+var env = process.env.NODE_ENV || 'development';
+console.log('env ******', env);
+if (env == 'development') {
   process.env.PORT = 3000;
-} else if (env == 'test'){
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/DCompeteApp';
+} else if (env == 'test') {
   process.env.PORT = 3000;
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/DCompeteAppTest';
 }
