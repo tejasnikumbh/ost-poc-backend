@@ -1,14 +1,14 @@
 // Coniguration - First
-require('./config/config');
+require('./../config/config');
 // Self created modules
-const mongoose = require('./db/mongoose');
-const {User} = require('./models/user');
-const {Airdrop} = require('./models/airdrop');
+const mongoose = require('./../db/mongoose');
+const {User} = require('./../models/user');
+const {Airdrop} = require('./../models/airdrop');
 
 // Requiring constants
-const keys = require('./keys/keys.js');
-const ostUtils = require('./utils/ost-utils');
-const constants = require('./utils/constants');
+const keys = require('./../keys/keys.js');
+const ostUtils = require('./../utils/ost-utils');
+const constants = require('./../utils/constants');
 
 // Independent third party modules
 const axios = require('axios');
