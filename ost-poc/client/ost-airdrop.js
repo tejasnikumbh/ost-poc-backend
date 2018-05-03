@@ -15,7 +15,7 @@ const axios = require('axios');
 
 // List type is either of all or never_airdropped
 // Meaning airdrop to all or the ones that have never been airdropped
-const airdropTokens = (amount, listType) => {
+const dropTokens = (amount, listType) => {
   var endpoint = '/users/airdrop/drop';
   var inputParams = { "amount": amount, "list_type": listType};
   var timestamp = ostUtils.secondsSinceEpoch();
@@ -41,7 +41,7 @@ const airdropTokens = (amount, listType) => {
 }; // end of airdropTokens function
 
 
-const airdropStatus = (airdrop_uuid) => {
+const checkStatus = (airdrop_uuid) => {
   var endpoint = '/users/airdrop/status';
   var inputParams = { "airdrop_uuid": airdrop_uuid };
   var url = ostUtils.generateUrlString(endpoint, inputParams);
@@ -63,6 +63,6 @@ const airdropStatus = (airdrop_uuid) => {
 } // end of airdrop status method
 
 module.exports = {
-  airdropTokens,
-  airdropStatus
+  dropTokens,
+  checkStatus
 }

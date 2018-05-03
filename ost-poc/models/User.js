@@ -10,15 +10,19 @@ const {authSecret} = require('./../keys/keys');
 const UserSchema = mongoose.Schema({
   ost_id: {
     type: String,
-    unique: true,
     default: null,
-    sparse: true // allows null value duplicates
+    index: {
+      unique: true,
+      partialFilterExpression: {ost_id: {$type: 'string'}}
+    } // allows null value duplicates
   },
   uuid: {
     type: String,
-    unique: true,
     default: null,
-    sparse: true // allows null value duplicates
+    index: {
+      unique: true,
+      partialFilterExpression: {uuid: {$type: 'string'}}
+    } // allows null value duplicates
   },
   name: {
     type: String,
@@ -169,10 +173,11 @@ UserSchema.static('saveToDatabase', function (users) {
 });
 
 // OST Related Statics
-UserSchema.static('updateUserInDatabaseWithOSTDetails', function(user) {
+UserSchema.static('findByIdAndUpdateWithOSTDetails', function(user) {
   // Finds by user._id and updates name to user.name
   var options = { new: true };
   User.findOneAndUpdate({_id: user._id}, {
+    ost_id: user.id,
     uuid: user.uuid,
     name: user.name,
     token_balance: user.token_balance,
@@ -183,6 +188,18 @@ UserSchema.static('updateUserInDatabaseWithOSTDetails', function(user) {
   }).catch((err) => {
     console.log(`Error updating user with uuid ${user.uuid}: ${err}`);
   });
+});
+
+UserSchema.static('findByUuidAndUpdateWithOSTDetails', function(user) {
+  // Finds by user._id and updates name to user.name
+  var options = { new: true };
+  return User.findOneAndUpdate({uuid: user.uuid}, {
+    ost_id: user.id,
+    uuid: user.uuid,
+    name: user.name,
+    token_balance: user.token_balance,
+    total_airdropped_tokens: user.total_airdropped_tokens
+  }, options);
 });
 
 UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) {
