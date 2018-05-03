@@ -21,3 +21,6 @@ module.exports = {
 }
 ```
 
+# Todo
+- Complete REST Auth Server
+- Build Front End using ReactJS
