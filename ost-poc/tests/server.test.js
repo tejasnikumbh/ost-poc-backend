@@ -105,47 +105,47 @@ describe('POST /users/login', () => {
   });
 });
 
-// describe('GET /users/me', () => {
-//   it('should return user if auth is valid', (done) => {
-//     request(app)
-//     .get('/users/me')
-//     .set('x-auth', users[0].tokens[0].token)
-//     .expect(200)
-//     .expect((res) => {
-//       expect(res.body._id).to.not.be.null;
-//       expect(res.body._id).to.equal(users[0]._id.toHexString());
-//       expect(res.body.name).to.be.equal(users[0].name);
-//       expect(res.body.email).to.be.equal(users[0].email);
-//       expect(res.body.age).to.be.equal(users[0].age);
-//     })
-//     .end(done)
-//   });
-//
-//   it('should return 401 if auth token not valid', (done) => {
-//     request(app)
-//     .get('/users/me')
-//     .set('x-auth', 'gibberish')
-//     .expect(401)
-//     .expect((res) => {
-//       expect(res.body).to.be.empty;
-//     })
-//     .end(done);
-//   });
-// });
-//
-// //
-// // describe('DELETE /users/me/token', () => {
-// //   it('should delete the token for logout', (done) => {
-// //     request(app)
-// //     .delete('/users/me/token')
-// //     .set('x-auth', users[0].tokens[0].token)
-// //     .send()
-// //     .expect(200)
-// //     .end((err, res) => {
-// //       User.findById(users[0]._id).then((user) => {
-// //         expect(user.tokens).to.be.empty;
-// //         done();
-// //       }).catch((e) => done(e));
-// //     });
-// //   });
-// // });
+describe('GET /users/me', () => {
+  it('should return user if auth is valid', (done) => {
+    request(app)
+    .get('/users/me')
+    .set('x-auth', users[0].tokens[0].token)
+    .expect(200)
+    .expect((res) => {
+      expect(res.body._id).to.not.be.null;
+      expect(res.body._id).to.equal(users[0]._id.toHexString());
+      expect(res.body.name).to.be.equal(users[0].name);
+      expect(res.body.email).to.be.equal(users[0].email);
+      expect(res.body.age).to.be.equal(users[0].age);
+    })
+    .end(done)
+  });
+
+  it('should return 401 if auth token not valid', (done) => {
+    request(app)
+    .get('/users/me')
+    .set('x-auth', 'gibberish')
+    .expect(401)
+    .expect((res) => {
+      expect(res.body).to.be.empty;
+    })
+    .end(done);
+  });
+});
+
+
+describe('DELETE /users/me/token', () => {
+  it('should delete the token for logout', (done) => {
+    request(app)
+    .delete('/users/me/token')
+    .set('x-auth', users[0].tokens[0].token)
+    .send()
+    .expect(200)
+    .end((err, res) => {
+      User.findById(users[0]._id).then((user) => {
+        expect(user.tokens).to.be.empty;
+        done();
+      }).catch((e) => done(e));
+    });
+  });
+});
