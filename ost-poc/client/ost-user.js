@@ -12,7 +12,7 @@ const constants = require('./../utils/constants');
 // Independent third party modules
 const axios = require('axios');
 
-const createOSTUser = (name, email = "") => {
+const createOSTUser = (_id, name, email = "") => {
   var endpoint = '/users/create';
   var inputParams = { "name": name};
   var timestamp = ostUtils.secondsSinceEpoch();
@@ -32,20 +32,19 @@ const createOSTUser = (name, email = "") => {
       throw new Error("Error in creating user using OST API");
     }
     var user = (res.data.data.economy_users[0]);
-    var dbUser = new User(user);
-    User.saveToDatabase([dbUser]);
+    user._id = _id;
+    User.updateUserInDatabaseWithOSTDetails(user);
   }).catch((err) => {
     console.log(err);
   }); // end of axios post call
 }; // end of createOSTUser
 
-const editOSTUser = (uuid, newName) => {
+const editOSTUser = (_id, uuid, newName) => {
   var endpoint = '/users/edit';
   var inputParams = {uuid: uuid, name: newName};
   var timestamp = ostUtils.secondsSinceEpoch();
   var signature = ostUtils.generateApiSignatureFromParams(
     endpoint, inputParams, timestamp);
-  //console.log(url);
   axios({
     method: 'post',
     url: `${constants.baseUrl}${endpoint}`,
@@ -61,13 +60,14 @@ const editOSTUser = (uuid, newName) => {
       throw new Error("Problem in updating OST User using OST API");
     };
     var user = res.data.data.economy_users[0];
-    User.editUserNameInDatabase(new User(user));
+    user._id = _id;
+    User.updateUserInDatabaseWithOSTDetails(user);
   }).catch((err) => {
     console.log(`Error: ${err}`);
   }); // end of axios post call
 } // end of editOSTUser
 
-const getOSTUsers = (pageNumber) => {
+const getOSTUserDetails = (pageNumber) => {
   // Specifying params for request
   var endpoint = '/users/list';
   var inputParams = {page_no: pageNumber, order_by: "name", order: "asc"};
@@ -80,18 +80,27 @@ const getOSTUsers = (pageNumber) => {
     data: {}
   }).then((res) => {
     if(!(res.data.success)) {
-      throw new Error("Error in fetching users from OST API");
+      return Promise.reject("Error in fetching users from OST API");
     }
     var users = res.data.data.economy_users;
-    var dbUsers = users.map((user) => new User(user));
-    User.saveToDatabase(dbUsers);
+    return Promise.resolve(users);
   }).catch((err) => {
-    console.log(`Error in response - ${err}`);
+    return Promise.reject(`Error in response - ${err}`);
   }); // end of axios get call
-} // end of getOSTUsers
+} // end of getOSTUserDetails
+
+const updateOSTUserDetails = (pageNumber) => {
+  getOSTUserDetails(1).then((users) => {
+    console.log(users);
+  }).catch((e) => {
+    console.log(e);
+  })
+}
+
 
 module.exports = {
   createOSTUser,
   editOSTUser,
-  getOSTUsers
+  getOSTUserDetails,
+  updateOSTUserDetails
 }

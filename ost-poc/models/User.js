@@ -10,11 +10,15 @@ const {authSecret} = require('./../keys/keys');
 const UserSchema = mongoose.Schema({
   ost_id: {
     type: String,
-    default: null
+    unique: true,
+    default: null,
+    sparse: true // allows null value duplicates
   },
   uuid: {
     type: String,
-    default: null
+    unique: true,
+    default: null,
+    sparse: true // allows null value duplicates
   },
   name: {
     type: String,
@@ -40,7 +44,7 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    require: true,
+    required: true,
     minlength: 6
   },
   total_airdropped_tokens: {
@@ -164,11 +168,16 @@ UserSchema.static('saveToDatabase', function (users) {
   });
 });
 
-// Updates a user object's name in database
-UserSchema.static('editUserNameInDatabase', function(user) {
-  // Finds by user.uuid and updates name to user.name
+// OST Related Statics
+UserSchema.static('updateUserInDatabaseWithOSTDetails', function(user) {
+  // Finds by user._id and updates name to user.name
   var options = { new: true };
-  User.findOneAndUpdate({uuid: user.uuid}, {name: user.name}, options)
+  User.findOneAndUpdate({_id: user._id}, {
+    uuid: user.uuid,
+    name: user.name,
+    token_balance: user.token_balance,
+    total_airdropped_tokens: user.total_airdropped_tokens
+  }, options)
   .then((user) => {
     console.log(`Updated User: ${user}`);
   }).catch((err) => {
@@ -176,9 +185,9 @@ UserSchema.static('editUserNameInDatabase', function(user) {
   });
 });
 
-UserSchema.static('updateTokenBalanceInDatabase', function(uuid, increment) {
+UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) {
   var options = { new: true };
-  User.findOne({uuid: uuid}).then((user) => {
+  User.findOne({uuid}).then((user) => {
     user.token_balance = user.token_balance + increment;
     return user.save();
   }).then((updatedUser) => {

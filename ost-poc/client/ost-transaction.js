@@ -18,7 +18,7 @@ const executeLearnReward = (userUuid) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateTokenBalanceInDatabase(userUuid,
+    User.updateUserTokenBalanceInDatabase(userUuid,
       constants.learnRewardTransaction.value);
   }).catch((err) => {
     console.log(`Error: ${err}`);
@@ -31,7 +31,7 @@ const executeCompetitionReward = (userUuid) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateTokenBalanceInDatabase(userUuid,
+    User.updateUserTokenBalanceInDatabase(userUuid,
       constants.competitionRewardTransaction.value);
   }).catch((err) => {
     console.log(`Error: ${err}`);
@@ -44,7 +44,7 @@ const executeLearnStake = (userUuid) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateTokenBalanceInDatabase(userUuid,
+    User.updateUserTokenBalanceInDatabase(userUuid,
       -1 * constants.learnStakeTransaction.value);
   }).catch((err) => {
     console.log(`Error: ${err}`);
@@ -57,7 +57,7 @@ const executeCompetitionStake = (userUuid) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateTokenBalanceInDatabase(userUuid,
+    User.updateUserTokenBalanceInDatabase(userUuid,
       -1 * constants.competitionStakeTransaction.value);
   }).catch((err) => {
     console.log(`Error: ${err}`);
