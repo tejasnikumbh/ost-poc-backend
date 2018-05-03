@@ -148,4 +148,23 @@ describe('DELETE /users/me/token', () => {
       }).catch((e) => done(e));
     });
   });
+
+  it('should return 401 if token invalid', (done) => {
+    request(app)
+    .delete('/users/me/token')
+    .set('x-auth', 'gibberish')
+    .send()
+    .expect(401)
+    .end((err, res) => {
+      var promiseOne = User.findById(users[0]._id).then((user) => {
+        expect(user.tokens).to.not.be.empty;
+      });
+      var promiseTwo = User.findById(users[1]._id).then((user) => {
+        expect(user.tokens).to.not.be.empty;
+      });
+      Promise.all([promiseOne, promiseTwo]).then(() => {
+        done();
+      }).catch((e) => done(e));
+    });
+  });
 });
