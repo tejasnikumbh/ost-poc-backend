@@ -137,7 +137,7 @@ describe('GET /users/me', () => {
 describe('DELETE /users/me/token', () => {
   it('should delete the token for logout', (done) => {
     request(app)
-    .delete('/users/me/token')
+    .delete('/users/logout')
     .set('x-auth', users[0].tokens[0].token)
     .send()
     .expect(200)
@@ -151,7 +151,7 @@ describe('DELETE /users/me/token', () => {
 
   it('should return 401 if token invalid', (done) => {
     request(app)
-    .delete('/users/me/token')
+    .delete('/users/logout')
     .set('x-auth', 'gibberish')
     .send()
     .expect(401)

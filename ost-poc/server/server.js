@@ -47,8 +47,8 @@ app.get('/users/me', authenticate, (req, res) => {
   res.send(user);
 })
 
-// DELETE /users/me/token - Used for log out
-app.delete('/users/me/token', authenticate, (req, res) => {
+// DELETE /users/logout - Used for log out
+app.delete('/users/logout', authenticate, (req, res) => {
   req.user.removeToken(req.token).then((user) => {
     res.status(200).send();
   }).catch((e) => {
