@@ -75,36 +75,36 @@ describe('POST /users/signup', () => {
   });
 
 });
-//
-// describe('POST /users/login', () => {
-//   it('should return user if credentials are valid', (done) => {
-//     request(app)
-//     .post('/users/login')
-//     .send({email: users[1].email, password: users[1].password})
-//     .expect(200)
-//     .expect((res) => {
-//       expect(res.headers['x-auth']).to.not.be.null;
-//       expect(res.body._id).to.not.be.null;
-//       expect(res.body._id).to.equal(users[1]._id.toHexString());
-//       expect(res.body.name).to.be.equal(users[1].name);
-//       expect(res.body.email).to.be.equal(users[1].email);
-//       expect(res.body.age).to.be.equal(users[1].age);
-//     })
-//     .end(done)
-//   });
-//
-//   it('should return 400 if credentials not valid', (done) => {
-//     request(app)
-//     .post('/users/login')
-//     .send({email: users[1].email, password: "invalid"})
-//     .expect(400)
-//     .expect((res) => {
-//       expect(res.body).to.be.empty;
-//     })
-//     .end(done);
-//   });
-// });
-//
+
+describe('POST /users/login', () => {
+  it('should return user if credentials are valid', (done) => {
+    request(app)
+    .post('/users/login')
+    .send({email: users[1].email, password: users[1].password})
+    .expect(200)
+    .expect((res) => {
+      expect(res.headers['x-auth']).to.not.be.null;
+      expect(res.body._id).to.not.be.null;
+      expect(res.body._id).to.equal(users[1]._id.toHexString());
+      expect(res.body.name).to.be.equal(users[1].name);
+      expect(res.body.email).to.be.equal(users[1].email);
+      expect(res.body.age).to.be.equal(users[1].age);
+    })
+    .end(done)
+  });
+
+  it('should return 400 if credentials not valid', (done) => {
+    request(app)
+    .post('/users/login')
+    .send({email: users[1].email, password: "invalid"})
+    .expect(400)
+    .expect((res) => {
+      expect(res.body).to.be.empty;
+    })
+    .end(done);
+  });
+});
+
 // describe('GET /users/me', () => {
 //   it('should return user if auth is valid', (done) => {
 //     request(app)
