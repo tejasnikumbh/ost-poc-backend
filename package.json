@@ -4,7 +4,9 @@
   "description": "Repository for POC for OST Developer KIT alpha",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ost-poc/server/server.js",
+    "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha ost-poc/tests/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\""
   },
   "repository": {
     "type": "git",
