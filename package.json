@@ -4,8 +4,8 @@
   "description": "Repository for POC for OST Developer KIT alpha",
   "main": "index.js",
   "scripts": {
-    "start": "node ost-poc/server/server.js",
-    "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha ost-poc/tests/*.test.js",
+    "start": "node source/server/server.js",
+    "test": "export NODE_ENV=test || SET NODE_ENV=test && mocha source/tests/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
   "repository": {
