@@ -8,22 +8,6 @@ const bcrypt = require('bcryptjs');
 const {authSecret} = require('./../keys/keys');
 
 const UserSchema = mongoose.Schema({
-  ost_id: {
-    type: String,
-    default: null,
-    index: {
-      unique: true,
-      partialFilterExpression: {ost_id: {$type: 'string'}}
-    } // allows null value duplicates
-  },
-  uuid: {
-    type: String,
-    default: null,
-    index: {
-      unique: true,
-      partialFilterExpression: {uuid: {$type: 'string'}}
-    } // allows null value duplicates
-  },
   name: {
     type: String,
     required: true,
@@ -51,14 +35,6 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 6
   },
-  total_airdropped_tokens: {
-    type: Number,
-    default: 0
-  },
-  token_balance: {
-    type: Number,
-    default: 0
-  },
   tokens: [{
       access: {
         type: String,
@@ -68,7 +44,33 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
       }
-  }]
+  }],
+  ost_details: {
+    ost_id: {
+      type: String,
+      default: null,
+      index: {
+        unique: true,
+        partialFilterExpression: {ost_id: {$type: 'string'}}
+      } // allows null value duplicates
+    },
+    uuid: {
+      type: String,
+      default: null,
+      index: {
+        unique: true,
+        partialFilterExpression: {uuid: {$type: 'string'}}
+      } // allows null value duplicates
+    },
+    total_airdropped_tokens: {
+      type: Number,
+      default: 0
+    },
+    token_balance: {
+      type: Number,
+      default: 0
+    }
+  }
 });
 
 
@@ -91,7 +93,7 @@ UserSchema.methods.toJSON = function () {
   var user = this;
   return _.pick(user, [
     '_id', 'name', 'age', 'email',
-  'total_airdropped_tokens', 'token_balance']);
+  'ost_details']);
 }
 
 UserSchema.methods.generateAuthToken = function() {
@@ -172,17 +174,18 @@ UserSchema.static('saveToDatabase', function (users) {
   });
 });
 
-// OST Related Statics
+// OST Related Statics - Used in User Client
 UserSchema.static('findByIdAndUpdateWithOSTDetails', function(user) {
   // Finds by user._id and updates name to user.name
   var options = { new: true };
-  User.findOneAndUpdate({_id: user._id}, {
+  var ost_details = {
     ost_id: user.id,
     uuid: user.uuid,
-    name: user.name,
     token_balance: user.token_balance,
     total_airdropped_tokens: user.total_airdropped_tokens
-  }, options)
+  }
+
+  User.findOneAndUpdate({_id: user._id}, {name: user.name, ost_details}, options)
   .then((user) => {
     console.log(`Updated User: ${user}`);
   }).catch((err) => {
@@ -193,24 +196,30 @@ UserSchema.static('findByIdAndUpdateWithOSTDetails', function(user) {
 UserSchema.static('findByUuidAndUpdateWithOSTDetails', function(user) {
   // Finds by user._id and updates name to user.name
   var options = { new: true };
-  return User.findOneAndUpdate({uuid: user.uuid}, {
+  var ost_details = {
     ost_id: user.id,
     uuid: user.uuid,
-    name: user.name,
     token_balance: user.token_balance,
     total_airdropped_tokens: user.total_airdropped_tokens
-  }, options);
+  }
+  return User.findOneAndUpdate(
+    { 'ost_details.uuid': user.uuid },
+    { name: user.name, ost_details }, 
+    options);
 });
 
+// Relevant and Used in Transaction Client
 UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) {
   var options = { new: true };
-  User.findOne({uuid}).then((user) => {
-    user.token_balance = user.token_balance + increment;
+  User.findOne({'ost_details.uuid': uuid}).then((user) => {
+    user.ost_details.token_balance = user.ost_details.token_balance + increment;
     return user.save();
   }).then((updatedUser) => {
-    console.log(`New token balance for user with ${updatedUser.uuid} is ${updatedUser.token_balance}`);
+    console.log(`New token balance for user with ${updatedUser.ost_details.uuid}
+       is ${updatedUser.ost_details.token_balance}`);
   }).catch((e) => {
     console.log(`Error updating token balance for user ${uuid} in database`);
+    console.log(`Error was this:- ${e}`);
   });
 });
 

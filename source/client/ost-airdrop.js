@@ -2,7 +2,6 @@
 require('./../config/config');
 // Self created modules
 const mongoose = require('./../db/mongoose');
-const {User} = require('./../models/user');
 const {Airdrop} = require('./../models/airdrop');
 
 // Requiring constants

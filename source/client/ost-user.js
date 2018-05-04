@@ -51,7 +51,7 @@ const editOSTUser = (_id, newName) => {
   User.findById(_id).then((user) => {
     return Promise.resolve(user);
   }).then((user) => {
-    var uuid = user.uuid;
+    var uuid = user.ost_details.uuid;
     var inputParams = {uuid: uuid, name: newName};
     var timestamp = ostUtils.secondsSinceEpoch();
     var signature = ostUtils.generateApiSignatureFromParams(
@@ -104,20 +104,14 @@ const getOSTUserDetails = (pageNumber) => {
 
 const updateOSTUserDetails = function (pageNumber) {
   getOSTUserDetails(pageNumber).then((users) => {
-    var dbUsers = users.map((user) => {
-      var newUser = new User(user);
-      newUser.ost_id = user.id;
-      delete newUser.id;
-      return newUser;
-    });
-    var actions = dbUsers.map(User.findByUuidAndUpdateWithOSTDetails);
+    var actions = users.map(User.findByUuidAndUpdateWithOSTDetails);
     var results = Promise.all(actions);
     results.then((data) => {
       console.log(data);
     }).catch((e) => {
       console.log(e);
     });
-    console.log(dbUsers);
+    console.log(users);
   }).catch((e) => {
     console.log(e);
   })
