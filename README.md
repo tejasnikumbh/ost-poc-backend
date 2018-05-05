@@ -23,6 +23,7 @@ module.exports = {
 
 # Todo
 - [x] Complete REST Auth Server
+- [ ] Complete Quiz API on the REST Server
 - [ ] Build Front End using ReactJS
 
 # Author
