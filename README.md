@@ -22,5 +22,10 @@ module.exports = {
 ```
 
 # Todo
-- Complete REST Auth Server
-- Build Front End using ReactJS
+- [x] Complete REST Auth Server
+- [ ] Build Front End using ReactJS
+
+# Author
+- Tejas Nikumbh
+  - Email: tejnikumbh@gmail.com
+  - Skype: tjnikumbh
