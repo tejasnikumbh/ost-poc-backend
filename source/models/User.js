@@ -192,12 +192,10 @@ UserSchema.static('findByIdAndUpdateWithOSTDetails', function(user) {
     total_airdropped_tokens: user.total_airdropped_tokens
   }
 
-  User.findOneAndUpdate({_id: user._id}, {name: user.name, ost_details}, options)
-  .then((user) => {
-    console.log(`Updated User: ${user}`);
-  }).catch((err) => {
-    console.log(`Error updating user with uuid ${user.uuid}: ${err}`);
-  });
+  return User.findOneAndUpdate(
+    {_id: user._id},
+    {name: user.name, ost_details},
+    options);
 });
 
 UserSchema.static('findByUuidAndUpdateWithOSTDetails', function(user) {

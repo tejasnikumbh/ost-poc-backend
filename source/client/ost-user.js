@@ -15,9 +15,7 @@ const axios = require('axios');
 const createOSTUser = (_id) => {
   var endpoint = '/users/create';
 
-  User.findById(_id).then((user) => {
-    return Promise.resolve(user);
-  }).then((user) => {
+  return User.findById(_id).then((user) => {
     var name = user.name;
     var inputParams = { "name": name};
     var timestamp = ostUtils.secondsSinceEpoch();
@@ -39,9 +37,9 @@ const createOSTUser = (_id) => {
     }
     var user = (res.data.data.economy_users[0]);
     user._id = _id;
-    User.findByIdAndUpdateWithOSTDetails(user);
+    return User.findByIdAndUpdateWithOSTDetails(user);
   }).catch((err) => {
-    return console.log(`Error ${err}`);
+    return Promise.reject(`Error while creating ost user - ${err}`);
   }); // end of axios post call lineup
 }; // end of createOSTUser
 

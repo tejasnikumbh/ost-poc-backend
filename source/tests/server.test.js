@@ -38,8 +38,9 @@ describe('POST /users/signup', () => {
       User.findOne({email}).then((user) => {
         expect(user).to.not.be.null;
         expect(user.password).to.not.equal(body.password);
+        expect(user.ost_details.uuid).to.not.be.null;
         return done();
-      });
+      }).catch((e) => done(e));
     });
   });
 

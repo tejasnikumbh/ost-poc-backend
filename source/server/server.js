@@ -29,8 +29,10 @@ app.use(bodyParser.json());
 app.post('/users/signup', (req, res) => {
   var body = _.pick(req.body, ['name', 'email', 'password']);
   var user = new User(body);
-  // TODO: - ost create user
   user.save().then(() => {
+    return ostUser.createOSTUser(user._id);
+  }).then((updatedUserWithOSTDetails) => {
+    user = updatedUserWithOSTDetails
     return user.generateAuthToken();
   }).then((token) => {
     res.header('x-auth', token).send(user);

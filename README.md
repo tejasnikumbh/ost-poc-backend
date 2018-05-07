@@ -25,6 +25,7 @@ module.exports = {
 - [x] Complete REST Auth Server
 - [ ] Complete Quiz API on the REST Server
 - [ ] Build Front End using ReactJS
+- [ ] Write tests for OST Client
 
 # Author
 - Tejas Nikumbh
