@@ -35,6 +35,13 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 6
   },
+  quiz_id: {
+    type: mongoose.Schema.Types.ObjectId
+  },
+  quiz_score: {
+    type: Number,
+    default: 0
+  },
   tokens: [{
       access: {
         type: String,
@@ -204,7 +211,7 @@ UserSchema.static('findByUuidAndUpdateWithOSTDetails', function(user) {
   }
   return User.findOneAndUpdate(
     { 'ost_details.uuid': user.uuid },
-    { name: user.name, ost_details }, 
+    { name: user.name, ost_details },
     options);
 });
 

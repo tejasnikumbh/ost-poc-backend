@@ -8,7 +8,9 @@ const _ = require('lodash');
 
 const {mongoose} = require('./../db/mongoose');
 const {User} = require('./../models/user');
-const {isLoggedIn, validateQuizSubmission} = require('./../middleware/middleware');
+const {Quiz} = require('./../models/quiz');
+const {isLoggedIn, hasPaidParticipationFee, validateQuizSubmission} =
+require('./../middleware/middleware');
 const {quiz} = require('./../data/quizzes/first_quiz');
 const app = express();
 const port = process.env.PORT;
@@ -61,9 +63,21 @@ app.get('/quiz', isLoggedIn, (req, res) => {
   res.status(200).send(quiz);
 });
 
-app.post('/quiz', isLoggedIn, validateQuizSubmission, (req, res) => {
-  res.send();
+app.post('/quiz', isLoggedIn, hasPaidParticipationFee, validateQuizSubmission, (req, res) => {
+  var user = req.user;
+  var quiz = req.quiz;
+  Quiz.computeScore(quiz._id, quiz.answers).then((score) => {
+    return User.findOneAndUpdate(
+      {_id: user._id},
+      {quiz_id: quiz._id, quiz_score: score},
+      {new: true})
+  }).then((user) => {
+    res.status(200).send();
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
 });
+
 app.listen(port, () => {
   console.log(`Started listening on port ${port}`);
 })

@@ -220,7 +220,11 @@ describe('POST /quiz', () => {
     .end((err, res) => {
       if(err) { return done(err); }
       // Check if score stored for particular user in database
-      done();
+      User.findOne({_id: users[0]._id}).then((user) => {
+        expect(user.quiz_score).to.not.be.null;
+        expect(user.quiz_id.toHexString()).to.be.equal(quiz._id.toHexString());
+        done();
+      }).catch((e) => done(e));
     });
   });
 

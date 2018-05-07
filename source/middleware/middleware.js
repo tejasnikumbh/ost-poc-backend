@@ -17,7 +17,7 @@ const isLoggedIn = (req, res, next) => {
   });
 };
 
-// const hasStartedQuiz = (req, res, next) => {
+const hasPaidParticipationFee = (req, res, next) => {
 //   var quizToken = req.header('x-auth-quiz');
 //   User.findByQuizToken(req.token).then((user) => {
 //     if(!user) {
@@ -29,7 +29,8 @@ const isLoggedIn = (req, res, next) => {
 //   }).catch((e) => {
 //     res.status(401).send(e);
 //   });
-// }
+  next();
+}
 
 const validateQuizSubmission = (req, res, next) => {
   if(!req.body._id || !req.body.answers) {
@@ -42,10 +43,15 @@ const validateQuizSubmission = (req, res, next) => {
       return res.status(400).send();
     }
   });
+
   var id = new ObjectID(req.body._id);
   Quiz.findById(id).then((quiz) => {
     if(quiz.questions.length !== req.body.answers.length) {
       return Promise.reject();
+    }
+    req.quiz = {
+      _id: id,
+      answers: req.body.answers
     }
     next();
   }).catch((e) => {
@@ -53,4 +59,4 @@ const validateQuizSubmission = (req, res, next) => {
   });
 };
 
-module.exports = {isLoggedIn, validateQuizSubmission};
+module.exports = {isLoggedIn, hasPaidParticipationFee, validateQuizSubmission};

@@ -12,10 +12,6 @@ const quizObject = new ObjectID();
 
 const users = [{
   _id: userOneObject,
-  ost_id: "SomeIDFirst",
-  uuid: "SomeUUIDFirst",
-  total_airdropped_tokens: 0,
-  token_balance: 0,
   name: "Tejas Nikumbh",
   age: 25,
   email: "tejnikumbh@gmail.com",
@@ -26,10 +22,6 @@ const users = [{
   }]
 },{
   _id: userTwoObject,
-  ost_id: "SomeIDSecond",
-  uuid: "SomeUUIDSecond",
-  total_airdropped_tokens: 0,
-  token_balance: 0,
   name: "Tejas Chaudhari",
   age: 26,
   email: "tejastalk@gmail.com",
