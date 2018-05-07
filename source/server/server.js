@@ -9,10 +9,17 @@ const _ = require('lodash');
 const {mongoose} = require('./../db/mongoose');
 const {User} = require('./../models/user');
 const {Quiz} = require('./../models/quiz');
-const {isLoggedIn, hasPaidParticipationFee, validateQuizSubmission} =
+
+const {isLoggedIn, validateQuizSubmission} =
 require('./../middleware/middleware');
-const {quiz} = require('./../data/quizzes/first_quiz');
+
+const ostUser = require('./../client/ost-user');
+const ostTransactions = require('./../client/ost-transaction');
+
+const {quizData} = require('./../data/quizzes/first_quiz');
+
 const app = express();
+
 const port = process.env.PORT;
 
 // Express middleware to convert request body to json
@@ -22,6 +29,7 @@ app.use(bodyParser.json());
 app.post('/users/signup', (req, res) => {
   var body = _.pick(req.body, ['name', 'email', 'password']);
   var user = new User(body);
+  // TODO: - ost create user
   user.save().then(() => {
     return user.generateAuthToken();
   }).then((token) => {
@@ -60,10 +68,11 @@ app.delete('/users/logout', isLoggedIn, (req, res) => {
 
 // GET /quiz - Getting a Quiz
 app.get('/quiz', isLoggedIn, (req, res) => {
-  res.status(200).send(quiz);
+  // TODO:  ost competition stake transaction
+  res.status(200).send(quizData);
 });
 
-app.post('/quiz', isLoggedIn, hasPaidParticipationFee, validateQuizSubmission, (req, res) => {
+app.post('/quiz', isLoggedIn, validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;
   Quiz.computeScore(quiz._id, quiz.answers).then((score) => {

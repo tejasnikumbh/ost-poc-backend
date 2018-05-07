@@ -17,21 +17,6 @@ const isLoggedIn = (req, res, next) => {
   });
 };
 
-const hasPaidParticipationFee = (req, res, next) => {
-//   var quizToken = req.header('x-auth-quiz');
-//   User.findByQuizToken(req.token).then((user) => {
-//     if(!user) {
-//       return Promise.reject();
-//     }
-//     req.user = user;
-//     req.token = token;
-//     next();
-//   }).catch((e) => {
-//     res.status(401).send(e);
-//   });
-  next();
-}
-
 const validateQuizSubmission = (req, res, next) => {
   if(!req.body._id || !req.body.answers) {
     return res.status(400).send();
@@ -59,4 +44,4 @@ const validateQuizSubmission = (req, res, next) => {
   });
 };
 
-module.exports = {isLoggedIn, hasPaidParticipationFee, validateQuizSubmission};
+module.exports = {isLoggedIn, validateQuizSubmission};
