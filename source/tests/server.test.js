@@ -1,8 +1,7 @@
 // Setting the environment to test
 const {app} = require('./../server/server');
 const {User} = require('./../models/user');
-const {users, populateUsers} = require('./seed/seed-data');
-
+const {users, populateUsers, quiz, populateQuiz} = require('./seed/seed');
 // Mocha is a framework so no need to require
 // Assertions library useful for managing expectations and assertions
 const {expect, assert, should } = require('chai');
@@ -13,6 +12,7 @@ const {ObjectID} = require('mongodb');
 
 // Setting up before running each it block
 beforeEach(populateUsers);
+beforeEach(populateQuiz);
 
 describe('POST /users/signup', () => {
   it('should create a new user', (done) => {
@@ -168,3 +168,94 @@ describe('DELETE /users/me/token', () => {
     });
   });
 });
+
+describe('GET /quiz', () => {
+  it('should return a quiz with questions and 4 choices each', (done) => {
+    request(app)
+    .get('/quiz')
+    .set('x-auth', users[0].tokens[0].token)
+    .send()
+    .expect(200)
+    .expect((res) => {
+
+      expect(res).to.not.be.null;
+      expect(res.body.questions).to.not.be.empty;
+
+      res.body.questions.map((question) => {
+        expect(question.title).to.not.be.null;
+        expect(question.title).to.not.be.empty;
+        expect(question.choices.length).to.be.equal(4);
+
+        question.choices.map((choice) => {
+          expect(typeof choice).to.be.equal('string');
+        });
+
+      });
+
+    }).end(done);
+  });
+
+  it('should return 401 if auth not valid', (done) => {
+    request(app)
+    .get('/quiz')
+    .set('x-auth', 'gibberish')
+    .expect(401)
+    .expect((res) => {
+      expect(res.body).to.be.empty;
+    })
+    .end(done);
+  });
+});
+
+describe('POST /quiz', () => {
+  it('should return 200 if auth valid', (done) => {
+    request(app)
+    .post('/quiz')
+    .set('x-auth', users[0].tokens[0].token)
+    .send({
+      '_id': quiz._id,
+      'answers': [0,1]
+    })
+    .expect(200)
+    .end((err, res) => {
+      if(err) { return done(err); }
+      // Check if score stored for particular user in database
+      done();
+    });
+  });
+
+  it('should return 401 if auth not valid', (done) => {
+    request(app)
+    .post('/quiz')
+    .set('x-auth', 'gibberish')
+    .send({
+      '_id': quiz._id,
+      'answers': [0,1]
+    })
+    .expect(401)
+    .expect((res) => {
+      expect(res.body).to.be.empty;
+    })
+    .end(done);
+  });
+
+  it('should return 400 if answer length or format is wrong', (done) => {
+    request(app)
+    .post('/quiz')
+    .set('x-auth', users[0].tokens[0].token)
+    .send({
+      '_id': quiz._id,
+      'answers': [0,1,2]
+    })
+    .expect(400)
+    .expect((res) => {
+      expect(res.body).to.be.empty;
+    })
+    .end((err, res) => {
+      if(err) { return done(err); }
+      // Changes in database - user score should not be updated
+      done();
+    });
+  });
+
+})

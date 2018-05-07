@@ -8,8 +8,8 @@ const _ = require('lodash');
 
 const {mongoose} = require('./../db/mongoose');
 const {User} = require('./../models/user');
-const {authenticate} = require('./../middleware/middleware');
-
+const {isLoggedIn, validateQuizSubmission} = require('./../middleware/middleware');
+const {quiz} = require('./../data/quizzes/first_quiz');
 const app = express();
 const port = process.env.PORT;
 
@@ -42,13 +42,13 @@ app.post('/users/login', (req, res) => {
 })
 
 // GET /users/me - Private route used for getting user information
-app.get('/users/me', authenticate, (req, res) => {
+app.get('/users/me', isLoggedIn, (req, res) => {
   var user = req.user;
   res.send(user);
 })
 
 // DELETE /users/logout - Used for log out
-app.delete('/users/logout', authenticate, (req, res) => {
+app.delete('/users/logout', isLoggedIn, (req, res) => {
   req.user.removeToken(req.token).then((user) => {
     res.status(200).send();
   }).catch((e) => {
@@ -56,6 +56,14 @@ app.delete('/users/logout', authenticate, (req, res) => {
   })
 })
 
+// GET /quiz - Getting a Quiz
+app.get('/quiz', isLoggedIn, (req, res) => {
+  res.status(200).send(quiz);
+});
+
+app.post('/quiz', isLoggedIn, validateQuizSubmission, (req, res) => {
+  res.send();
+});
 app.listen(port, () => {
   console.log(`Started listening on port ${port}`);
 })

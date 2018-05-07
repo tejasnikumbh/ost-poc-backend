@@ -1,9 +1,9 @@
 require('./../../config/config')
+const {Question} = require('./../../models/question');
 const {Quiz} = require('./../../models/quiz');
-const {Question} = require('./../models/question');
 const {mongoose} = require('./../../db/mongoose');
 
-const quiz = {
+const quiz = new Quiz({
   questions: [
     new Question({
       title: "What is 2 + 2?",
@@ -20,10 +20,6 @@ const quiz = {
       correct_choice: 1
     })
   ]
-};
+});
 
-const populateQuiz = () => {
-  new Quiz(quiz).save();
-}
-
-module.exports = {quiz, populateQuiz};
+module.exports = {quiz};
