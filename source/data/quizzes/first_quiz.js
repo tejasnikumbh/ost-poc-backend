@@ -3,7 +3,7 @@ const {Question} = require('./../../models/question');
 const {Quiz} = require('./../../models/quiz');
 const {mongoose} = require('./../../db/mongoose');
 
-const quiz = new Quiz({
+const quizData = new Quiz({
   questions: [
     new Question({
       title: "What is 2 + 2?",
@@ -22,4 +22,4 @@ const quiz = new Quiz({
   ]
 });
 
-module.exports = {quiz};
+module.exports = {quizData};
