@@ -70,8 +70,13 @@ app.delete('/users/logout', isLoggedIn, (req, res) => {
 
 // GET /quiz - Getting a Quiz
 app.get('/quiz', isLoggedIn, (req, res) => {
-  // TODO:  ost competition stake transaction
-  res.status(200).send(quizData);
+  var user = req.user;
+  if(!user.ost_details) { return res.status(400).send(); }
+  ostTransactions.executeCompetitionStake(user.ost_details.uuid).then(() => {
+    res.status(200).send(quizData);
+  }).catch((e) => {
+    res.status(400).send({message: "Unable to stake. Check token balance."});
+  });
 });
 
 app.post('/quiz', isLoggedIn, validateQuizSubmission, (req, res) => {

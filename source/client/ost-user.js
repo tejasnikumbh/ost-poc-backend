@@ -33,7 +33,7 @@ const createOSTUser = (_id) => {
     });
   }).then((res) => {
     if(!(res.data.success)) {
-      throw new Error("Error in creating user using OST API");
+      return Promise.reject("Error in creating user using OST API");
     }
     var user = (res.data.data.economy_users[0]);
     user._id = _id;
@@ -46,9 +46,7 @@ const createOSTUser = (_id) => {
 const editOSTUser = (_id, newName) => {
   var endpoint = '/users/edit';
 
-  User.findById(_id).then((user) => {
-    return Promise.resolve(user);
-  }).then((user) => {
+  return User.findById(_id).then((user) => {
     var uuid = user.ost_details.uuid;
     var inputParams = {uuid: uuid, name: newName};
     var timestamp = ostUtils.secondsSinceEpoch();
@@ -67,13 +65,13 @@ const editOSTUser = (_id, newName) => {
       })
   }).then((res) => {
     if(!(res.data.success)) {
-      throw new Error("Problem in updating OST User using OST API");
+      return Promise.reject("Problem in updating OST User using OST API");
     };
     var user = res.data.data.economy_users[0];
     user._id = _id;
-    User.findByIdAndUpdateWithOSTDetails(user);
-  }).catch((e) => {
-    return console.log(`Error: ${err}`);;
+    return User.findByIdAndUpdateWithOSTDetails(user);
+  }).catch((err) => {
+    return Promise.reject(`Error: ${err}`);;
   }); // end of axios post call
 } // end of editOSTUser
 

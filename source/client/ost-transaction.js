@@ -13,54 +13,54 @@ const constants = require('./../utils/constants');
 const axios = require('axios');
 
 const executeLearnReward = (userUuid) => {
-  executeTransaction(constants.learnRewardTransaction,
+  return executeTransaction(constants.learnRewardTransaction,
   constants.companyUuid, userUuid).then((res) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateUserTokenBalanceInDatabase(userUuid,
-      constants.learnRewardTransaction.value);
-  }).catch((err) => {
-    console.log(`Error: ${err}`);
+    return User.updateUserTokenBalanceInDatabase(userUuid,
+      constants.learnRewardTransaction.value).then(() => {
+        return Promise.resolve();
+      }).catch((e) => Promise.reject());;
   });
 }
 
 const executeCompetitionReward = (userUuid) => {
-  executeTransaction(constants.competitionRewardTransaction,
+  return executeTransaction(constants.competitionRewardTransaction,
   constants.companyUuid, userUuid).then((res) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateUserTokenBalanceInDatabase(userUuid,
-      constants.competitionRewardTransaction.value);
-  }).catch((err) => {
-    console.log(`Error: ${err}`);
+    return User.updateUserTokenBalanceInDatabase(userUuid,
+      constants.competitionRewardTransaction.value).then(() => {
+        return Promise.resolve();
+      }).catch((e) => Promise.reject());;
   });
 }
 
 const executeLearnStake = (userUuid) => {
-  executeTransaction(constants.learnStakeTransaction,
+  return executeTransaction(constants.learnStakeTransaction,
   userUuid, constants.companyUuid).then((res) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
-    User.updateUserTokenBalanceInDatabase(userUuid,
-      -1 * constants.learnStakeTransaction.value);
-  }).catch((err) => {
-    console.log(`Error: ${err}`);
+    return User.updateUserTokenBalanceInDatabase(userUuid,
+      -1 * constants.learnStakeTransaction.value).then(() => {
+        return Promise.resolve();
+      }).catch((e) => Promise.reject());;
   });
 }
 
 const executeCompetitionStake = (userUuid) => {
-  executeTransaction(constants.competitionStakeTransaction,
+  return executeTransaction(constants.competitionStakeTransaction,
   userUuid, constants.companyUuid).then((res) => {
     if(!(res.data.success)) {
-      throw new Error("Problem in updating OST User using OST API");
+      return Promise.reject("Problem in updating OST User using OST API");
     };
-    User.updateUserTokenBalanceInDatabase(userUuid,
-      -1 * constants.competitionStakeTransaction.value);
-  }).catch((err) => {
-    console.log(`Error: ${err}`);
+    return User.updateUserTokenBalanceInDatabase(userUuid,
+      -1 * constants.competitionStakeTransaction.value).then(() => {
+        return Promise.resolve('Succesfully updated user token balance');
+      }).catch((e) => Promise.reject('Unable to update user token balance'));
   });
 }
 

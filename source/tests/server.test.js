@@ -171,10 +171,10 @@ describe('DELETE /users/me/token', () => {
 });
 
 describe('GET /quiz', () => {
-  it('should return a quiz with questions and 4 choices each', (done) => {
+  it('should return a valid quiz', (done) => {
     request(app)
     .get('/quiz')
-    .set('x-auth', users[0].tokens[0].token)
+    .set('x-auth', users[1].tokens[0].token)
     .send()
     .expect(200)
     .expect((res) => {
@@ -190,10 +190,17 @@ describe('GET /quiz', () => {
         question.choices.map((choice) => {
           expect(typeof choice).to.be.equal('string');
         });
-
       });
-
     }).end(done);
+  });
+
+  it('should return 400 if not enough token balance', (done) => {
+    request(app)
+    .get('/quiz')
+    .set('x-auth', users[0].tokens[0].token)
+    .send()
+    .expect(400)
+    .end(done);
   });
 
   it('should return 401 if auth not valid', (done) => {
@@ -201,9 +208,6 @@ describe('GET /quiz', () => {
     .get('/quiz')
     .set('x-auth', 'gibberish')
     .expect(401)
-    .expect((res) => {
-      expect(res.body).to.be.empty;
-    })
     .end(done);
   });
 });

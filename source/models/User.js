@@ -216,15 +216,16 @@ UserSchema.static('findByUuidAndUpdateWithOSTDetails', function(user) {
 // Relevant and Used in Transaction Client
 UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) {
   var options = { new: true };
-  User.findOne({'ost_details.uuid': uuid}).then((user) => {
-    user.ost_details.token_balance = user.ost_details.token_balance + increment;
+  return User.findOne({'ost_details.uuid': uuid}).then((user) => {
+    var newBalance = user.ost_details.token_balance + increment;
+    // Guard against -ve balance
+    if(newBalance < 0) { return Promise.reject('Not enough balance')}
+    user.ost_details.token_balance = newBalance;
     return user.save();
   }).then((updatedUser) => {
-    console.log(`New token balance for user with ${updatedUser.ost_details.uuid}
-       is ${updatedUser.ost_details.token_balance}`);
+    return Promise.resolve(updatedUser);
   }).catch((e) => {
-    console.log(`Error updating token balance for user ${uuid} in database`);
-    console.log(`Error was this:- ${e}`);
+    return Promise.reject(e)
   });
 });
 
