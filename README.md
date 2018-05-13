@@ -1,5 +1,6 @@
 # Simple Token (OST) POC
-Repository for POC for OST Developer KIT alpha
+- Backend code repository for POC for OST Developer KIT alpha 
+- Built using Node, Mongo(+Mongoose), and Mocha(+Chai)
 # Backend Architecture
 ![alt text](https://github.com/tejasnikumbh/ost-poc-backend/blob/master/resources/backend_architecture.png)
 # Installation Instructions
@@ -24,7 +25,7 @@ module.exports = {
 # Todo
 - [x] Complete REST Auth Server
 - [x] Complete Quiz API on the REST Server
-- [ ] Bridge REST server and OST client
+- [x] Bridge REST server and OST client
 - [ ] Build Front End using ReactJS
 - [ ] Write tests for OST Client
 
