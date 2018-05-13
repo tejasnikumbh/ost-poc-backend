@@ -38,5 +38,8 @@
     "mocha": "^5.1.1",
     "nodemon": "^1.17.3",
     "supertest": "^3.0.0"
+  },
+  "engines":{
+    "node": "9.11.1"
   }
 }

@@ -229,6 +229,7 @@ UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) 
   });
 });
 
+// User model creation
 const User = mongoose.model('User', UserSchema);
 
 module.exports = {User};
