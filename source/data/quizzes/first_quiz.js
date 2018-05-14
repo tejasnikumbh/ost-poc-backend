@@ -4,6 +4,10 @@ const {Quiz} = require('./../../models/quiz');
 const {mongoose} = require('./../../db/mongoose');
 
 const quizData = new Quiz({
+  title: "Blockchain Quiz 1.0",
+  participation_fee: 10,
+  reward_amount: 100,
+  percentage_rewarded: 0.25,
   questions: [
     new Question({
       title: "What is 2 + 2?",

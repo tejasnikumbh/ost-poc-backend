@@ -179,6 +179,7 @@ describe('GET /quiz', () => {
     .expect(200)
     .expect((res) => {
       expect(res).to.not.be.null;
+      expect(res.body._id).to.not.be.null;
       expect(res.body.questions).to.not.be.empty;
 
       res.body.questions.map((question) => {

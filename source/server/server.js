@@ -69,13 +69,7 @@ app.get('/users/profile', isLoggedIn, (req, res) => {
   var user = req.user;
   res.send({
     user,
-    quiz: {
-      id: 1,
-      title: "Blockchain Sample Quiz",
-      participation_fee: 10,
-      reward_amount: 100,
-      percentage_rewarded: 0.25
-    }
+    quiz: quizData.getMetaData()
   });
 })
 
