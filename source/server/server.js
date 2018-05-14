@@ -47,7 +47,7 @@ app.post('/users/signup', (req, res) => {
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
-    console.log("Error", e);
+    // console.log("Error", e);
     res.status(400).send();
   });
 })
