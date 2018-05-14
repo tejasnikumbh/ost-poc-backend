@@ -22,6 +22,16 @@ const app = express();
 
 const port = process.env.PORT;
 
+// Add headers for access control. Middleware
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'x-auth, content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true); // for future cookies
+    res.setHeader('Access-Control-Expose-Headers', 'x-auth');
+    next();
+});
+
 // Express middleware to convert request body to json
 app.use(bodyParser.json());
 
@@ -37,6 +47,7 @@ app.post('/users/signup', (req, res) => {
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
+    console.log("Error", e);
     res.status(400).send();
   });
 })
