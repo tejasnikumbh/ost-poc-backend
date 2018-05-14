@@ -106,10 +106,10 @@ describe('POST /users/login', () => {
   });
 });
 
-describe('GET /users/me', () => {
+describe('GET /users/profile', () => {
   it('should return user if auth is valid', (done) => {
     request(app)
-    .get('/users/me')
+    .get('/users/profile')
     .set('x-auth', users[0].tokens[0].token)
     .expect(200)
     .expect((res) => {
@@ -124,7 +124,7 @@ describe('GET /users/me', () => {
 
   it('should return 401 if auth token not valid', (done) => {
     request(app)
-    .get('/users/me')
+    .get('/users/profile')
     .set('x-auth', 'gibberish')
     .expect(401)
     .expect((res) => {
@@ -135,7 +135,7 @@ describe('GET /users/me', () => {
 });
 
 
-describe('DELETE /users/me/token', () => {
+describe('DELETE /users/logout', () => {
   it('should delete the token for logout', (done) => {
     request(app)
     .delete('/users/logout')

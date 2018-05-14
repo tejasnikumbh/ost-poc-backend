@@ -65,9 +65,18 @@ app.post('/users/login', (req, res) => {
 })
 
 // GET /users/me - Private route used for getting user information
-app.get('/users/me', isLoggedIn, (req, res) => {
+app.get('/users/profile', isLoggedIn, (req, res) => {
   var user = req.user;
-  res.send(user);
+  res.send({
+    user,
+    quiz: {
+      id: 1,
+      title: "Blockchain Sample Quiz",
+      participation_fee: 10,
+      reward_amount: 100,
+      percentage_rewarded: 0.25
+    }
+  });
 })
 
 // DELETE /users/logout - Used for log out
