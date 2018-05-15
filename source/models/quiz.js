@@ -2,6 +2,7 @@ require('./../config/config');
 const mongoose = require('mongoose');
 const Question = require('./question');
 const _ = require('lodash');
+const {ObjectID} = require('mongodb');
 
 const QuizSchema = mongoose.Schema({
   title: {
@@ -23,10 +24,21 @@ const QuizSchema = mongoose.Schema({
   questions: [{type:mongoose.Schema.Types.ObjectId, ref: 'Question'}]
 });
 
-// QuizSchema.methods.toJSON = function() {
-//   var quiz = this;
-//   return _.pick(quiz, ['_id', 'questions']);
-// }
+QuizSchema.methods.toJSONAsync = function(callback) {
+  var quiz = this.toObject();
+  var tQuiz = _.pick(quiz, ['_id', 'title', 'participation_fee',
+  'reward_amount', 'percentage_rewarded', 'questions']);
+  console.log(tQuiz);
+
+  Question.findById(tQuiz.questions[0]).then((question) => {
+    tQuiz.questions = [question];
+    console.log(question);
+    callback(tQuiz);
+  }).catch((e) => {
+    console.log(e);
+    callback(e);
+  });
+}
 
 QuizSchema.methods.getMetaData = function() {
   var quiz = this;

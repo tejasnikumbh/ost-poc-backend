@@ -16,7 +16,7 @@ require('./../middleware/middleware');
 const ostUser = require('./../client/ost-user');
 const ostTransactions = require('./../client/ost-transaction');
 
-const {quizData} = require('./../data/quizzes/first_quiz');
+const {quizData, createQuiz} = require('./../data/quizzes/first_quiz');
 
 const app = express();
 
@@ -67,9 +67,13 @@ app.post('/users/login', (req, res) => {
 // GET /users/me - Private route used for getting user information
 app.get('/users/profile', isLoggedIn, (req, res) => {
   var user = req.user;
-  res.send({
-    user,
-    quiz: quizData.getMetaData()
+  createQuiz().then((quiz) => {
+    res.send({
+      user,
+      quiz: quiz.getMetaData()
+    });
+  }).catch((e) => {
+    res.status(400).send(e);
   });
 })
 
@@ -83,19 +87,25 @@ app.delete('/users/logout', isLoggedIn, (req, res) => {
 })
 
 // GET /quiz - Getting a Quiz
-app.get('/quiz', isLoggedIn, (req, res) => {
+app.get('/quiz/:id', isLoggedIn, (req, res) => {
   var user = req.user;
+  var quizId = req.params.id;
   if(!user.ost_details) { return res.status(400).send(); }
-  ostTransactions.executeCompetitionStake(user.ost_details.uuid).then(() => {
+  ostTransactions.executeCompetitionStake(user.ost_details.uuid)
+  .then(() => {
+    return Quiz.findById(quizId);
+  }).then((quiz) => {
+    quizData._id = quiz._id;
     res.status(200).send(quizData);
   }).catch((e) => {
     res.status(400).send({message: "Unable to stake. Check token balance."});
   });
 });
 
-app.post('/quiz', isLoggedIn, validateQuizSubmission, (req, res) => {
+app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;
+  //var quizId = req.query.id;
   Quiz.computeScore(quiz._id, quiz.answers).then((score) => {
     return User.findOneAndUpdate(
       {_id: user._id},

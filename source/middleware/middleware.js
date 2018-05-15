@@ -3,6 +3,8 @@ const {ObjectID} = require('mongodb');
 const {User} = require('./../models/user');
 const {Quiz} = require('./../models/quiz');
 
+const _ = require('lodash');
+
 const isLoggedIn = (req, res, next) => {
   var token = req.header('x-auth');
   User.findByToken(token).then((user) => {
@@ -23,7 +25,7 @@ const validateQuizSubmission = (req, res, next) => {
   }
   // Each answer should only be [0,3] closed range
   // This is because there are only 4 choices for any question
-  req.body.answers.map((ans) => {
+  _.map(req.body.answers, (ans) => {
     if(ans < 0 || ans > 3) {
       return res.status(400).send();
     }

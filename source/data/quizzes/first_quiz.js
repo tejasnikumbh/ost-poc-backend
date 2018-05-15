@@ -2,6 +2,7 @@ require('./../../config/config')
 const {Question} = require('./../../models/question');
 const {Quiz} = require('./../../models/quiz');
 const {mongoose} = require('./../../db/mongoose');
+const _ = require('lodash');
 
 const quizData = new Quiz({
   title: "Blockchain Quiz 1.0",
@@ -26,4 +27,8 @@ const quizData = new Quiz({
   ]
 });
 
-module.exports = {quizData};
+const createQuiz = () => {
+  return quizData.save();
+}
+
+module.exports = {quizData, createQuiz};
