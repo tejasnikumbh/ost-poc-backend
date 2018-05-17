@@ -1,6 +1,7 @@
 // Sets up the configuration
 require('./../config/config.js');
 
+const constants = require('./../utils/constants');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
@@ -70,7 +71,7 @@ app.post('/users/login', (req, res) => {
 app.post('/users/request_tokens', isLoggedIn, (req, res) => {
   var user = req.user;
   if(true) { // logic for executing grant
-    user.ost_details.token_balance += 1;
+    user.ost_details.token_balance += constants.requestGrantTransaction.value;
     ostTransactions.executeRequestGrant(user.ost_details.uuid).then(()=>{
       return user.save();
     }).then((newUser) => {
