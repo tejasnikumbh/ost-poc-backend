@@ -8,6 +8,7 @@ const _ = require('lodash');
 
 const {mongoose} = require('./../db/mongoose');
 const {User} = require('./../models/user');
+const {Question} = require('./../models/question');
 const {Quiz} = require('./../models/quiz');
 
 const {isLoggedIn, validateQuizSubmission} =
@@ -47,7 +48,7 @@ app.post('/users/signup', (req, res) => {
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
-    // console.log("Error", e);
+    console.log(e.message);
     res.status(400).send();
   });
 })
@@ -60,6 +61,7 @@ app.post('/users/login', (req, res) => {
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {
+    console.log(e.message);
     res.status(400).send();
   });
 })
@@ -73,6 +75,7 @@ app.get('/users/profile', isLoggedIn, (req, res) => {
       quiz: quiz.getMetaData()
     });
   }).catch((e) => {
+    console.log(e.message);
     res.status(400).send(e);
   });
 })
@@ -82,6 +85,7 @@ app.delete('/users/logout', isLoggedIn, (req, res) => {
   req.user.removeToken(req.token).then((user) => {
     res.status(200).send();
   }).catch((e) => {
+    console.log(e.message);
     res.status(401).send();
   })
 })
@@ -95,9 +99,9 @@ app.get('/quiz/:id', isLoggedIn, (req, res) => {
   .then(() => {
     return Quiz.findById(quizId);
   }).then((quiz) => {
-    quizData._id = quiz._id;
-    res.status(200).send(quizData);
+    res.status(200).send(quiz);
   }).catch((e) => {
+    console.log(e.message);
     res.status(400).send({message: "Unable to stake. Check token balance."});
   });
 });
@@ -112,8 +116,9 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
       {quiz_id: quiz._id, quiz_score: score},
       {new: true})
   }).then((user) => {
-    res.status(200).send();
+    res.status(200).send(user);
   }).catch((e) => {
+    console.log(e.message);
     res.status(400).send(e);
   });
 });

@@ -6,12 +6,10 @@ const QuestionSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
-    unique:true
   },
   choices: [{
     type: String,
     required: true,
-    unique: true,
     trim: true,
   }],
   correct_choice: {

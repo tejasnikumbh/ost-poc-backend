@@ -11,16 +11,22 @@ const quizData = new Quiz({
   percentage_rewarded: 0.25,
   questions: [
     new Question({
-      title: "What is 2 + 2?",
+      title: "What is a good application for smart contracts?",
       choices: [
-        "1", "2", "3", "4"
+        "Housing ownership contracts",
+        "Credits in a game",
+        "Social network",
+        "Healthcare database"
       ],
       correct_choice: 4
     }),
     new Question({
-      title: "What is 1 + 2?",
+      title: "Which of the following is a smart contract development ecosystem?",
       choices: [
-        "3", "2", "1", "4"
+        "Ethereum",
+        "Litecoin",
+        "Bitcoin",
+        "NEO Coin"
       ],
       correct_choice: 1
     })

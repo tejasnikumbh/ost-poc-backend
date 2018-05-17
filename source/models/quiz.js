@@ -1,6 +1,6 @@
 require('./../config/config');
 const mongoose = require('mongoose');
-const Question = require('./question');
+const {Question, QuestionSchema} = require('./question');
 const _ = require('lodash');
 const {ObjectID} = require('mongodb');
 
@@ -21,7 +21,7 @@ const QuizSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  questions: [{type:mongoose.Schema.Types.ObjectId, ref: 'Question'}]
+  questions: [Question.schema]
 });
 
 QuizSchema.methods.toJSONAsync = function(callback) {
