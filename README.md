@@ -26,11 +26,12 @@ module.exports = {
 - [x] Complete REST Auth Server
 - [x] Complete Quiz API on the REST Server
 - [x] Bridge REST server and OST client
-- [ ] Write Quiz scoring algorithm
-- [ ] combine quiz_id and score on user into score object
-- [ ] Return quiz based on ids instead of just 1
-- [ ] Build Front End using ReactJS
-- [ ] Write tests for OST Client
+- [x] Write Quiz scoring algorithm
+- [x] combine quiz_id and score on user into score object
+- [x] Return quiz based on ids instead of just 1
+- [x] Build Front End using ReactJS
+- [ ] Modularize quiz scoring algorithm
+- [ ] Write tests for OST Client or integrate JS SDK
 
 # Author
 - Tejas Nikumbh
