@@ -110,7 +110,7 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;
   //var quizId = req.query.id;
-  Quiz.computeScore(quiz._id, quiz.answers).then((score) => {
+  computeScore(quiz._id, quiz.answers).then((score) => {
     return User.findOneAndUpdate(
       {_id: user._id},
       {quiz_id: quiz._id, quiz_score: score},
@@ -122,6 +122,19 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
     res.status(400).send(e);
   });
 });
+
+function computeScore(quizId, answers) {
+  return Quiz.findById(quizId).then((quiz) => {
+    var correct_answers = _.map(quiz.questions, (question, index) => {
+      return question.correct_choice == Number(answers[index]) ? 1: 0;
+    });
+    var score = _.sum(correct_answers);
+    return Promise.resolve(score);
+  }).catch((e) => {
+    console.log(e.message);
+    return Promise.reject(e.message);
+  });
+}
 
 app.listen(port, () => {
   console.log(`Started listening on port ${port}`);

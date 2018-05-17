@@ -14,8 +14,8 @@ const QuestionSchema = mongoose.Schema({
   }],
   correct_choice: {
     type: Number,
-    min: 1,
-    max: 4,
+    min: 0,
+    max: 3,
     default: null
   }
 });

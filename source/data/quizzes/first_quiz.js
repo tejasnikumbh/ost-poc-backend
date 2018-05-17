@@ -18,7 +18,7 @@ const quizData = new Quiz({
         "Social network",
         "Healthcare database"
       ],
-      correct_choice: 4
+      correct_choice: 0
     }),
     new Question({
       title: "Which of the following is a smart contract development ecosystem?",
@@ -28,7 +28,7 @@ const quizData = new Quiz({
         "Bitcoin",
         "NEO Coin"
       ],
-      correct_choice: 1
+      correct_choice: 0
     })
   ]
 });

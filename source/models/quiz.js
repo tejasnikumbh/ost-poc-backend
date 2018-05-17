@@ -46,10 +46,6 @@ QuizSchema.methods.getMetaData = function() {
   'reward_amount', 'percentage_rewarded'])
 }
 
-QuizSchema.statics.computeScore = function(quizId, answers) {
-  return Promise.resolve(10);
-}
-
 const Quiz = mongoose.model('Quiz', QuizSchema);
 
 module.exports = {Quiz};
