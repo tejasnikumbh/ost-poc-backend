@@ -18,7 +18,7 @@ const ostUser = require('./../client/ost-user');
 const ostTransactions = require('./../client/ost-transaction');
 
 const {quizData, createQuiz} = require('./../data/quizzes/first_quiz');
-
+const {computeScore} = require('./../algorithm/scoring');
 const app = express();
 
 const port = process.env.PORT;
@@ -65,6 +65,22 @@ app.post('/users/login', (req, res) => {
     res.status(400).send();
   });
 })
+
+// POST /users/request_tokens - Used for requesting Tokens
+app.post('/users/request_tokens', isLoggedIn, (req, res) => {
+  var user = req.user;
+  if(true) { // logic for executing grant
+    user.ost_details.token_balance += 1;
+    ostTransactions.executeRequestGrant(user.ost_details.uuid).then(()=>{
+      return user.save();
+    }).then((newUser) => {
+      res.status(200).send(newUser);
+    }).catch((e) => {
+      console.log(e.message);
+      res.status(400).send(e);
+    });
+  }
+});
 
 // GET /users/me - Private route used for getting user information
 app.get('/users/profile', isLoggedIn, (req, res) => {
@@ -120,19 +136,6 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
     res.status(400).send(e);
   });
 });
-
-function computeScore(quizId, answers) {
-  return Quiz.findById(quizId).then((quiz) => {
-    var correct_answers = _.map(quiz.questions, (question, index) => {
-      return question.correct_choice == Number(answers[index]) ? 1: 0;
-    });
-    var score = _.sum(correct_answers);
-    return Promise.resolve(score);
-  }).catch((e) => {
-    console.log(e.message);
-    return Promise.reject(e.message);
-  });
-}
 
 app.listen(port, () => {
   console.log(`Started listening on port ${port}`);

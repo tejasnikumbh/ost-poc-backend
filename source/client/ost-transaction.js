@@ -12,6 +12,19 @@ const constants = require('./../utils/constants');
 // Independent third party modules
 const axios = require('axios');
 
+const executeRequestGrant = (userUuid) => {
+  return executeTransaction(constants.requestGrantTransaction,
+  constants.companyUuid, userUuid).then((res) => {
+    if(!(res.data.success)) {
+      throw new Error("Problem in updating OST User using OST API");
+    };
+    return User.updateUserTokenBalanceInDatabase(userUuid,
+      constants.requestGrantTransaction.value).then(() => {
+        return Promise.resolve();
+      }).catch((e) => Promise.reject());;
+  });
+}
+
 const executeLearnReward = (userUuid) => {
   return executeTransaction(constants.learnRewardTransaction,
   constants.companyUuid, userUuid).then((res) => {
@@ -88,8 +101,9 @@ const executeTransaction = (transactionType, fromUuid, toUuid) => {
 } // end of execute transaction call
 
 module.exports = {
+  executeRequestGrant,
   executeLearnReward,
   executeLearnStake,
   executeCompetitionStake,
-  executeCompetitionReward
+  executeCompetitionReward,
 }

@@ -16,13 +16,19 @@ const competitionRewardTransaction = {
 const learnStakeTransaction = {
   name: "learnStake",
   kind: "user_to_company",
-  value: 1 // set on ost dashboard
+  value: 10 // set on ost dashboard
 };
 
 const learnRewardTransaction = {
   name: "learnReward",
   kind: "company_to_user",
-  value: 1 // set on ost dashboard
+  value: 10 // set on ost dashboard
+}
+
+const requestGrantTransaction = {
+  name: "requestGrant",
+  kind: "company_to_user",
+  value: 10 // set on ost dashboard
 }
 
 module.exports = {
@@ -31,5 +37,6 @@ module.exports = {
   competitionStakeTransaction,
   competitionRewardTransaction,
   learnStakeTransaction,
-  learnRewardTransaction
+  learnRewardTransaction,
+  requestGrantTransaction
 }
