@@ -111,11 +111,9 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
   var quiz = req.quiz;
   //var quizId = req.query.id;
   computeScore(quiz._id, quiz.answers).then((score) => {
-    return User.findOneAndUpdate(
-      {_id: user._id},
-      {quiz_id: quiz._id, quiz_score: score},
-      {new: true})
+    return user.updateScore(quiz._id, score);
   }).then((user) => {
+    console.log(user);
     res.status(200).send(user);
   }).catch((e) => {
     console.log(e.message);

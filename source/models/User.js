@@ -35,22 +35,16 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 6
   },
-  quiz_id: {
-    type: mongoose.Schema.Types.ObjectId
-  },
-  quiz_score: {
-    type: Number,
-    default: 0
+  performance: {
+    quizzes: [{
+      _id: { type: mongoose.Schema.Types.ObjectId },
+      score: { type: Number, default: 0 },
+      time : { type : Date, default: Date.now }
+    }]
   },
   tokens: [{
-      access: {
-        type: String,
-        required: true
-      },
-      token: {
-        type: String,
-        required: true
-      }
+      access: { type: String, required: true },
+      token: { type: String, required: true }
   }],
   ost_details: {
     ost_id: {
@@ -128,6 +122,18 @@ UserSchema.methods.removeToken = function (token) {
   });
 }
 
+UserSchema.methods.updateScore = function(quizId, score) {
+    var user = this;
+    var data = {
+      _id: quizId,
+      score
+    };
+    user.performance.quizzes.push(data);
+
+    return user.save().then(() => {
+        return user;
+    });
+};
 // Static methods
 UserSchema.statics.findByToken = function(token) {
   var User = this;
