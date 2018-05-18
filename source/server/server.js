@@ -12,7 +12,7 @@ const {User} = require('./../models/user');
 const {Question} = require('./../models/question');
 const {Quiz} = require('./../models/quiz');
 
-const {isLoggedIn, validateQuizSubmission} =
+const {isLoggedIn, validateIfQuizAlreadyTaken, validateQuizSubmission} =
 require('./../middleware/middleware');
 
 const ostUser = require('./../client/ost-user');
@@ -123,18 +123,23 @@ app.get('/quiz/:id', isLoggedIn, (req, res) => {
   });
 });
 
-app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
+app.post('/quiz/:id',
+isLoggedIn,
+validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;
+  var userScore = 0;
   //var quizId = req.query.id;
   computeScore(quiz._id, quiz.answers)
   .then((score) => {
+    console.log(score);
+    userScore = score;
     return user.updateScore(quiz._id, score);
   }).then(() => {
     return ostTransactions.executeCompetitionReward(user.ost_details.uuid);
   }).then((user) => {
     console.log(user);
-    res.status(200).send(user);
+    res.status(200).send({message:"Succesfully submitted quiz", score: userScore});
   }).catch((e) => {
     console.log(e);
     res.status(400).send(e);

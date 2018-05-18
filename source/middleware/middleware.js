@@ -19,7 +19,24 @@ const isLoggedIn = (req, res, next) => {
   });
 };
 
+const validateIfQuizAlreadyTaken = (req, res, next) => {
+  const quizzesTakenByUser = req.user.performance.quizzes;
+  var isAlreadyTaken = false;
+  quizzesTakenByUser.some((quiz) => {
+    if(quiz._id.toHexString() === req.body._id) {
+      isAlreadyTaken = true;
+      return true;
+    }
+  })
+
+  if(isAlreadyTaken) {
+    console.log('Quiz already taken');
+    return res.status(200).send({message: 'Quiz already taken'});
+  }
+}
+
 const validateQuizSubmission = (req, res, next) => {
+
   if(!req.body._id || !req.body.answers) {
     return res.status(400).send();
   }
@@ -46,4 +63,4 @@ const validateQuizSubmission = (req, res, next) => {
   });
 };
 
-module.exports = {isLoggedIn, validateQuizSubmission};
+module.exports = {isLoggedIn, validateIfQuizAlreadyTaken, validateQuizSubmission};
