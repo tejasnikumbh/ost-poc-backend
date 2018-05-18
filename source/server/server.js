@@ -142,8 +142,11 @@ validateQuizSubmission, (req, res) => {
     const currentQuiz = user.performance.quizzes.filter((object) => {
       return object._id == quiz._id;
     })
-    res.status(200).send({message:"Succesfully submitted quiz",
-    quiz: currentQuiz[0]});
+    res.status(200).send({
+      message:"Succesfully submitted quiz",
+      quiz: currentQuiz[0],
+      alreadyTaken: false
+    });
   }).catch((e) => {
     console.log(e);
     res.status(400).send(e);

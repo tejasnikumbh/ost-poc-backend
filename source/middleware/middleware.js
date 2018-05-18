@@ -35,10 +35,11 @@ const validateIfQuizAlreadyTaken = (req, res, next) => {
     console.log('Quiz already taken');
     return res.status(200).send({
       message: 'Quiz already taken',
-      quiz: quizIfTaken
+      quiz: quizIfTaken,
+      alreadyTaken: true
     });
   }
-  
+
   next();
 }
 
