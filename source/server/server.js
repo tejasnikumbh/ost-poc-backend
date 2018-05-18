@@ -18,7 +18,7 @@ require('./../middleware/middleware');
 const ostUser = require('./../client/ost-user');
 const ostTransactions = require('./../client/ost-transaction');
 
-const {quizData, createQuiz} = require('./../data/quizzes/first_quiz');
+const {quizData, fetchQuiz} = require('./../data/quizzes/first_quiz');
 const {computeScore} = require('./../algorithm/scoring');
 const app = express();
 
@@ -86,7 +86,7 @@ app.post('/users/request_tokens', isLoggedIn, (req, res) => {
 // GET /users/me - Private route used for getting user information
 app.get('/users/profile', isLoggedIn, (req, res) => {
   var user = req.user;
-  createQuiz().then((quiz) => {
+  fetchQuiz().then((quiz) => {
     res.send({
       user,
       quiz: quiz.getMetaData()

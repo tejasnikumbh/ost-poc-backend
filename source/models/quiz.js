@@ -43,7 +43,7 @@ QuizSchema.methods.toJSONAsync = function(callback) {
 QuizSchema.methods.getMetaData = function() {
   var quiz = this;
   return _.pick(quiz, ['_id', 'title', 'participation_fee',
-  'reward_amount', 'percentage_rewarded'])
+  'reward_amount', 'percentage_rewarded']);
 }
 
 const Quiz = mongoose.model('Quiz', QuizSchema);

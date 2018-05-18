@@ -33,8 +33,19 @@ const quizData = new Quiz({
   ]
 });
 
-const createQuiz = () => {
-  return quizData.save();
+const fetchQuiz = () => {
+  return Quiz.findOne({title: quizData.title}).then((quiz) => {
+    if(_.isEmpty(quiz)) {
+      console.log("Returned new quiz");
+      return quizData.save();
+    } else {
+      console.log("Returned existing quiz");
+      return quiz;
+    }
+  }).catch((e) => {
+    console.log("Error while searching");
+    return Promise.reject(e);
+  });
 }
 
-module.exports = {quizData, createQuiz};
+module.exports = {quizData, fetchQuiz};
