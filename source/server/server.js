@@ -125,6 +125,7 @@ app.get('/quiz/:id', isLoggedIn, (req, res) => {
 
 app.post('/quiz/:id',
 isLoggedIn,
+validateIfQuizAlreadyTaken,
 validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;

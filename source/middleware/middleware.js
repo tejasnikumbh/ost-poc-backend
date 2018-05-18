@@ -24,7 +24,7 @@ const validateIfQuizAlreadyTaken = (req, res, next) => {
   var isAlreadyTaken = false;
   var quizIfTaken = null;
   quizzesTakenByUser.some((quiz) => {
-    if(quiz._id.toHexString() === req.body._id) {
+    if(quiz._id.toHexString() == req.body._id) {
       isAlreadyTaken = true;
       quizIfTaken = quiz;
       return true;
@@ -38,6 +38,8 @@ const validateIfQuizAlreadyTaken = (req, res, next) => {
       quiz: quizIfTaken
     });
   }
+  
+  next();
 }
 
 const validateQuizSubmission = (req, res, next) => {
