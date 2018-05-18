@@ -9,8 +9,8 @@ function computeScore(quizId, answers) {
     var score = _.sum(correct_answers);
     return Promise.resolve(score);
   }).catch((e) => {
-    console.log(e.message);
-    return Promise.reject(e.message);
+    console.log(e);
+    return Promise.reject(e);
   });
 }
 

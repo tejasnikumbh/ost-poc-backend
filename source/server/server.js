@@ -49,7 +49,7 @@ app.post('/users/signup', (req, res) => {
   }).then((token) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(400).send();
   });
 })
@@ -62,7 +62,7 @@ app.post('/users/login', (req, res) => {
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(400).send();
   });
 })
@@ -77,7 +77,7 @@ app.post('/users/request_tokens', isLoggedIn, (req, res) => {
     }).then((newUser) => {
       res.status(200).send(newUser);
     }).catch((e) => {
-      console.log(e.message);
+      console.log(e);
       res.status(400).send(e);
     });
   }
@@ -92,7 +92,7 @@ app.get('/users/profile', isLoggedIn, (req, res) => {
       quiz: quiz.getMetaData()
     });
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(400).send(e);
   });
 })
@@ -102,7 +102,7 @@ app.delete('/users/logout', isLoggedIn, (req, res) => {
   req.user.removeToken(req.token).then((user) => {
     res.status(200).send();
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(401).send();
   })
 })
@@ -118,7 +118,7 @@ app.get('/quiz/:id', isLoggedIn, (req, res) => {
   }).then((quiz) => {
     res.status(200).send(quiz);
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(400).send({message: "Unable to stake. Check token balance."});
   });
 });
@@ -127,13 +127,16 @@ app.post('/quiz/:id', isLoggedIn, validateQuizSubmission, (req, res) => {
   var user = req.user;
   var quiz = req.quiz;
   //var quizId = req.query.id;
-  computeScore(quiz._id, quiz.answers).then((score) => {
+  computeScore(quiz._id, quiz.answers)
+  .then((score) => {
     return user.updateScore(quiz._id, score);
+  }).then(() => {
+    return ostTransactions.executeCompetitionReward(user.ost_details.uuid);
   }).then((user) => {
     console.log(user);
     res.status(200).send(user);
   }).catch((e) => {
-    console.log(e.message);
+    console.log(e);
     res.status(400).send(e);
   });
 });
