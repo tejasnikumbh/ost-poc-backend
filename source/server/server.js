@@ -137,9 +137,12 @@ validateQuizSubmission, (req, res) => {
     return user.updateScore(quiz._id, score);
   }).then(() => {
     return ostTransactions.executeCompetitionReward(user.ost_details.uuid);
-  }).then((user) => {
-    console.log(user);
-    res.status(200).send({message:"Succesfully submitted quiz", score: userScore});
+  }).then(() => {
+    const currentQuiz = user.performance.quizzes.filter((object) => {
+      return object._id == quiz._id;
+    })
+    res.status(200).send({message:"Succesfully submitted quiz",
+    quiz: currentQuiz[0]});
   }).catch((e) => {
     console.log(e);
     res.status(400).send(e);

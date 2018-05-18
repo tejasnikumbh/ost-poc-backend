@@ -22,16 +22,21 @@ const isLoggedIn = (req, res, next) => {
 const validateIfQuizAlreadyTaken = (req, res, next) => {
   const quizzesTakenByUser = req.user.performance.quizzes;
   var isAlreadyTaken = false;
+  var quizIfTaken = null;
   quizzesTakenByUser.some((quiz) => {
     if(quiz._id.toHexString() === req.body._id) {
       isAlreadyTaken = true;
+      quizIfTaken = quiz;
       return true;
     }
   })
 
   if(isAlreadyTaken) {
     console.log('Quiz already taken');
-    return res.status(200).send({message: 'Quiz already taken'});
+    return res.status(200).send({
+      message: 'Quiz already taken',
+      quiz: quizIfTaken
+    });
   }
 }
 
