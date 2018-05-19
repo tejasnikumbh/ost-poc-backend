@@ -39,7 +39,7 @@ const UserSchema = mongoose.Schema({
     quizzes: [{
       _id: { type: mongoose.Schema.Types.ObjectId },
       score: { type: Number, default: 0 },
-      time : { type : Date, default: Date.now },
+      end_time : { type : Date, default: Date.now },
       earning : { type: Number, default: 0 }
     }]
   },
