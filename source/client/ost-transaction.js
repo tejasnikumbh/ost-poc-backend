@@ -39,14 +39,14 @@ const executeCompetitionStake = (userUuid) => {
   });
 }
 
-const executeCompetitionReward = (userUuid) => {
+const executeCompetitionReward = (userUuid, earning) => {
   return executeTransaction(constants.competitionRewardTransaction,
   constants.companyUuid, userUuid).then((res) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
     return User.updateUserTokenBalanceInDatabase(userUuid,
-      constants.competitionRewardTransaction.value).then(() => {
+      earning).then(() => {
         return Promise.resolve();
       }).catch((e) => Promise.reject());;
   });

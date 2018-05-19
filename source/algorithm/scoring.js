@@ -6,7 +6,7 @@ function computeScore(quizId, answers) {
     var correct_answers = _.map(quiz.questions, (question, index) => {
       return question.correct_choice == Number(answers[index]) ? 1: 0;
     });
-    var score = _.sum(correct_answers);
+    var score = _.sum(correct_answers) * 100 / correct_answers.length;
     return Promise.resolve(score);
   }).catch((e) => {
     console.log(e);

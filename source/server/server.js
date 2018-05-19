@@ -136,15 +136,20 @@ validateQuizSubmission, (req, res) => {
     console.log(score);
     userScore = score;
     return user.updateScore(quiz._id, score);
-  }).then(() => {
-    return ostTransactions.executeCompetitionReward(user.ost_details.uuid);
+  }).then((updatedUser) => {
+    console.log(updatedUser);
+    const currentQuiz = updatedUser.performance.quizzes.filter((object) => {
+      return object._id == quiz._id;
+    })[0];
+    return ostTransactions.executeCompetitionReward(
+      updatedUser.ost_details.uuid, currentQuiz.earning);
   }).then(() => {
     const currentQuiz = user.performance.quizzes.filter((object) => {
       return object._id == quiz._id;
-    })
+    })[0];
     res.status(200).send({
       message:"Succesfully submitted quiz",
-      quiz: currentQuiz[0],
+      quiz: currentQuiz,
       alreadyTaken: false
     });
   }).catch((e) => {

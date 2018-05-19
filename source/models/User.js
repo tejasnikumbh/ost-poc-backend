@@ -39,7 +39,8 @@ const UserSchema = mongoose.Schema({
     quizzes: [{
       _id: { type: mongoose.Schema.Types.ObjectId },
       score: { type: Number, default: 0 },
-      time : { type : Date, default: Date.now }
+      time : { type : Date, default: Date.now },
+      earning : { type: Number, default: 0 }
     }]
   },
   tokens: [{
@@ -124,9 +125,21 @@ UserSchema.methods.removeToken = function (token) {
 
 UserSchema.methods.updateScore = function(quizId, score) {
     var user = this;
+    var earning = 0;
+    if (score < 10) {
+      earning = 0;
+    } else if(score < 50) {
+      earning = 2;
+    } else if(score < 100) {
+      earning = 5;
+    } else {
+      earning = 10;
+    }
+
     var data = {
       _id: quizId,
-      score
+      score,
+      earning
     };
     user.performance.quizzes.push(data);
 
