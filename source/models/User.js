@@ -94,7 +94,7 @@ UserSchema.methods.toJSON = function () {
   var user = this;
   return _.pick(user, [
     '_id', 'name', 'age', 'email',
-  'ost_details']);
+  'ost_details', 'performance']);
 }
 
 UserSchema.methods.generateAuthToken = function() {
