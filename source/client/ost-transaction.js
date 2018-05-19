@@ -40,45 +40,26 @@ const executeCompetitionStake = (userUuid) => {
 }
 
 const executeCompetitionReward = (userUuid, earning) => {
-  return executeTransaction(constants.competitionRewardTransaction,
-  constants.companyUuid, userUuid).then((res) => {
+  console.log("EARNING", earning);
+  var transaction = null;
+  if(earning == 0) { return; }
+  else if(earning == 2) { transaction = constants.cRTransactionStageOne; }
+  else if(earning == 5) { transaction = constants.cRTransactionStageTwo; }
+  else if(earning == 10) { transaction = constants.cRTransactionStageThree; }
+  else if(earning == 15) { transaction = constants.cRTransactionStageFour; }
+  else { return; }
+
+  return executeTransaction(transaction, constants.companyUuid,
+    userUuid).then((res) => {
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
     return User.updateUserTokenBalanceInDatabase(userUuid,
-      earning).then(() => {
+      transaction.value).then(() => {
         return Promise.resolve();
       }).catch((e) => Promise.reject());;
   });
 }
-
-const executeLearnStake = (userUuid) => {
-  return executeTransaction(constants.learnStakeTransaction,
-  userUuid, constants.companyUuid).then((res) => {
-    if(!(res.data.success)) {
-      throw new Error("Problem in updating OST User using OST API");
-    };
-    return User.updateUserTokenBalanceInDatabase(userUuid,
-      -1 * constants.learnStakeTransaction.value).then(() => {
-        return Promise.resolve();
-      }).catch((e) => Promise.reject());;
-  });
-}
-
-
-const executeLearnReward = (userUuid) => {
-  return executeTransaction(constants.learnRewardTransaction,
-  constants.companyUuid, userUuid).then((res) => {
-    if(!(res.data.success)) {
-      throw new Error("Problem in updating OST User using OST API");
-    };
-    return User.updateUserTokenBalanceInDatabase(userUuid,
-      constants.learnRewardTransaction.value).then(() => {
-        return Promise.resolve();
-      }).catch((e) => Promise.reject());;
-  });
-}
-
 
 const executeTransaction = (transactionType, fromUuid, toUuid) => {
   var endpoint = '/transaction-types/execute';
@@ -104,8 +85,33 @@ const executeTransaction = (transactionType, fromUuid, toUuid) => {
 
 module.exports = {
   executeRequestGrant,
-  executeLearnReward,
-  executeLearnStake,
   executeCompetitionStake,
-  executeCompetitionReward,
+  executeCompetitionReward
 }
+
+// const executeLearnStake = (userUuid) => {
+//   return executeTransaction(constants.learnStakeTransaction,
+//   userUuid, constants.companyUuid).then((res) => {
+//     if(!(res.data.success)) {
+//       throw new Error("Problem in updating OST User using OST API");
+//     };
+//     return User.updateUserTokenBalanceInDatabase(userUuid,
+//       -1 * constants.learnStakeTransaction.value).then(() => {
+//         return Promise.resolve();
+//       }).catch((e) => Promise.reject());;
+//   });
+// }
+//
+//
+// const executeLearnReward = (userUuid) => {
+//   return executeTransaction(constants.learnRewardTransaction,
+//   constants.companyUuid, userUuid).then((res) => {
+//     if(!(res.data.success)) {
+//       throw new Error("Problem in updating OST User using OST API");
+//     };
+//     return User.updateUserTokenBalanceInDatabase(userUuid,
+//       constants.learnRewardTransaction.value).then(() => {
+//         return Promise.resolve();
+//       }).catch((e) => Promise.reject());;
+//   });
+// }

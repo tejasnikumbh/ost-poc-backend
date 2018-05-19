@@ -7,9 +7,39 @@ const _ = require('lodash');
 const quizData = new Quiz({
   title: "Blockchain Quiz 1.0",
   participation_fee: 10,
-  reward_amount: 100,
-  percentage_rewarded: 0.25,
+  reward_amount: 15,
+  percentage_rewarded: 0.90,
   questions: [
+    new Question({
+      title: "What is a good application for smart contracts?",
+      choices: [
+        "Housing ownership contracts",
+        "Credits in a game",
+        "Social network",
+        "Healthcare database"
+      ],
+      correct_choice: 0
+    }),
+    new Question({
+      title: "What is a good application for smart contracts?",
+      choices: [
+        "Housing ownership contracts",
+        "Credits in a game",
+        "Social network",
+        "Healthcare database"
+      ],
+      correct_choice: 0
+    }),
+    new Question({
+      title: "What is a good application for smart contracts?",
+      choices: [
+        "Housing ownership contracts",
+        "Credits in a game",
+        "Social network",
+        "Healthcare database"
+      ],
+      correct_choice: 0
+    }),
     new Question({
       title: "What is a good application for smart contracts?",
       choices: [

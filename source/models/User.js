@@ -126,15 +126,11 @@ UserSchema.methods.removeToken = function (token) {
 UserSchema.methods.updateScore = function(quizId, score) {
     var user = this;
     var earning = 0;
-    if (score < 10) {
-      earning = 0;
-    } else if(score < 50) {
-      earning = 2;
-    } else if(score < 100) {
-      earning = 5;
-    } else {
-      earning = 10;
-    }
+    if (score < 10) { earning = 0; }
+    else if(score < 50) { earning = 2; }
+    else if(score < 75) { earning = 5; }
+    else if(score < 100) { earning = 10; }
+    else { earning = 15; }
 
     var data = {
       _id: quizId,
