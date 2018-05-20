@@ -3,11 +3,11 @@ const {Question} = require('./../../models/question');
 const {Quiz} = require('./../../models/quiz');
 const {mongoose} = require('./../../db/mongoose');
 const _ = require('lodash');
-
+const constants = require('./../../utils/constants');
 const quizData = new Quiz({
   title: "Blockchain Quiz 1.0",
-  participation_fee: 10,
-  reward_amount: 15,
+  participation_fee: constants.competitionStakeTransaction.value,
+  reward_amount: constants.cRTransactionStageFour.value,
   percentage_rewarded: 0.90,
   questions: [
     new Question({

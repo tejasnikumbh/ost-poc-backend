@@ -43,10 +43,10 @@ const executeCompetitionReward = (userUuid, earning) => {
   console.log("EARNING", earning);
   var transaction = null;
   if(earning == 0) { return; }
-  else if(earning == 2) { transaction = constants.cRTransactionStageOne; }
-  else if(earning == 5) { transaction = constants.cRTransactionStageTwo; }
-  else if(earning == 10) { transaction = constants.cRTransactionStageThree; }
-  else if(earning == 15) { transaction = constants.cRTransactionStageFour; }
+  else if(earning == 1) { transaction = constants.cRTransactionStageOne; }
+  else if(earning == 2) { transaction = constants.cRTransactionStageTwo; }
+  else if(earning == 3) { transaction = constants.cRTransactionStageThree; }
+  else if(earning == 5) { transaction = constants.cRTransactionStageFour; }
   else { return; }
 
   return executeTransaction(transaction, constants.companyUuid,
