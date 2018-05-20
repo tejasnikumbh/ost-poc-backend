@@ -88,30 +88,3 @@ module.exports = {
   executeCompetitionStake,
   executeCompetitionReward
 }
-
-// const executeLearnStake = (userUuid) => {
-//   return executeTransaction(constants.learnStakeTransaction,
-//   userUuid, constants.companyUuid).then((res) => {
-//     if(!(res.data.success)) {
-//       throw new Error("Problem in updating OST User using OST API");
-//     };
-//     return User.updateUserTokenBalanceInDatabase(userUuid,
-//       -1 * constants.learnStakeTransaction.value).then(() => {
-//         return Promise.resolve();
-//       }).catch((e) => Promise.reject());;
-//   });
-// }
-//
-//
-// const executeLearnReward = (userUuid) => {
-//   return executeTransaction(constants.learnRewardTransaction,
-//   constants.companyUuid, userUuid).then((res) => {
-//     if(!(res.data.success)) {
-//       throw new Error("Problem in updating OST User using OST API");
-//     };
-//     return User.updateUserTokenBalanceInDatabase(userUuid,
-//       constants.learnRewardTransaction.value).then(() => {
-//         return Promise.resolve();
-//       }).catch((e) => Promise.reject());;
-//   });
-// }
