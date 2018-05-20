@@ -30,7 +30,7 @@ module.exports = {
 - [x] combine quiz_id and score on user into score object
 - [x] Return quiz based on ids instead of just 1
 - [x] Build Front End using ReactJS
-- [ ] Modularize quiz scoring algorithm
+- [x] Modularize quiz scoring algorithm
 - [ ] Write tests for OST Client or integrate JS SDK
 
 # Author
