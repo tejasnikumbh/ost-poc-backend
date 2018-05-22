@@ -15,7 +15,9 @@ const axios = require('axios');
 const executeRequestGrant = (userUuid) => {
   return executeTransaction(constants.requestGrantTransaction,
   constants.companyUuid, userUuid).then((res) => {
+    console.log('************************************************************');
     console.log('OST Response: Executed requestGrant transaction...');
+    console.log(`Company UUID is:- ${constants.companyUuid}`);
     console.log('Response data:-');
     console.log(res.data);
     if(!(res.data.success)) {
@@ -32,7 +34,9 @@ const executeRequestGrant = (userUuid) => {
 const executeCompetitionStake = (userUuid) => {
   return executeTransaction(constants.competitionStakeTransaction,
   userUuid, constants.companyUuid).then((res) => {
+    console.log('************************************************************');
     console.log('OST Response: Executed competitionStake transaction...');
+    console.log(`Company UUID is:- ${constants.companyUuid}`);
     console.log('Response data:-');
     console.log(res.data);
     if(!(res.data.success)) {
@@ -56,7 +60,9 @@ const executeCompetitionReward = (userUuid, earning) => {
 
   return executeTransaction(transaction, constants.companyUuid,
     userUuid).then((res) => {
+    console.log('************************************************************');
     console.log(`OST Response: Executed ${transaction.name} transaction...`);
+    console.log(`Company UUID is:- ${constants.companyUuid}`);
     console.log('Response data:-');
     console.log(res.data);
     if(!(res.data.success)) {

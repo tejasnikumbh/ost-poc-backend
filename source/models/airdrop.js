@@ -35,7 +35,8 @@ AirdropSchema.static('updateStatusInDatabase', function(airdrop_uuid, status) {
   var options = { new: true };
   Airdrop.findOneAndUpdate({uuid: airdrop_uuid}, {status: status},
     options).then((airdrop) => {
-    console.log(`Updated Airdrop: ${airdrop.uuid}. New status - ${airdrop.status}`);
+    console.log(`Updated Airdrop: ${airdrop.uuid}`);
+    console.log(`New status - ${airdrop.status}`);
   }).catch((err) => {
     console.log(`Error updating airdrop with uuid ${airdrop_uuid}: ${err}`);
   });

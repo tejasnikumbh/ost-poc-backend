@@ -32,10 +32,11 @@ const createOSTUser = (_id) => {
       }
     });
   }).then((res) => {
+    console.log('************************************************************');
     console.log('OST Repsonse: Details for new user...');
     console.log('Response data:-');
     console.log(res.data);
-    console.log('Economy User:-');
+    console.log('Economy user:-');
     console.log(res.data.data.economy_users[0]);
     if(!(res.data.success)) {
       return Promise.reject("Error in creating user using OST API");
