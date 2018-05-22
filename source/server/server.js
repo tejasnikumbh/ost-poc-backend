@@ -34,8 +34,6 @@ app.use(function (req, res, next) {
     if(allowedOrigins.indexOf(origin) > -1){
       res.setHeader('Access-Control-Allow-Origin', origin);
     }
-    res.setHeader('Access-Control-Allow-Origin',
-    );
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'x-auth, content-type');
     res.setHeader('Access-Control-Allow-Credentials', true); // for future cookies
