@@ -76,6 +76,7 @@ const executeCompetitionReward = (userUuid, earning) => {
 }
 
 const executeTransaction = (transactionType, fromUuid, toUuid) => {
+  console.log("BOLLA");
   var endpoint = '/transaction-types/execute';
   var inputParams = {transaction_kind: transactionType.name,
      from_uuid: fromUuid, to_uuid: toUuid};

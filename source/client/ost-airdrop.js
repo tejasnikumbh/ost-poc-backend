@@ -39,6 +39,7 @@ const dropTokens = (amount, listType) => {
     var airdrop = Airdrop.createAirdrop(amount, airdrop_uuid);
     airdrop.saveToDatabase();
   }).catch((err) => {
+    console.log(err);
     console.log(`Error saving Airdrop to database:- ${err.message}`);
   }); // end of axios post call
 }; // end of airdropTokens function

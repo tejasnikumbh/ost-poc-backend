@@ -48,6 +48,8 @@ app.use(bodyParser.json());
 app.post('/users/signup', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
+  var i = body.email.indexOf("@")
+  user.name = body.email.slice(0,i);
   user.save().then(() => {
     return ostUser.createOSTUser(user._id);
   }).then((updatedUserWithOSTDetails) => {
@@ -84,7 +86,6 @@ app.post('/users/request_tokens', isLoggedIn, (req, res) => {
   if(true) { // logic for executing grant
     user.ost_details.token_balance += constants.requestGrantTransaction.value;
     ostTransactions.executeRequestGrant(user.ost_details.uuid).then(()=>{
-      console.log("OL");
       return user.save();
     }).then((newUser) => {
       res.status(200).send(newUser);

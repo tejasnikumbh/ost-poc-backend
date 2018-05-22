@@ -1,4 +1,4 @@
-const baseUrl = "https://playgroundapi.ost.com";
+const baseUrl = "https://sandboxapi.ost.com";
 const companyUuid = "2f879999-d3a2-4336-ad34-79a7dc693ac3";
 
 const requestGrantTransaction = {

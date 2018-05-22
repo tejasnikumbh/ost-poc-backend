@@ -103,7 +103,7 @@ const getOSTUser = (_id) => {
     console.log('Fetching details for existing user...');
     console.log('OST Repsonse: Details for existing user...');
     console.log('Response data (Logged in user):-');
-    console.log(res.data);
+    console.log(JSON.stringify(res.data, undefined, 2));
     if(!(res.data.success)) {
       return Promise.reject("Problem in fetching OST User using OST API");
     };
