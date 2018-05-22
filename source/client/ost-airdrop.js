@@ -28,6 +28,9 @@ const dropTokens = (amount, listType) => {
       request_timestamp: timestamp, signature: signature
     }
   }).then((res) => {
+    console.log('OST Response: Created airdrop request...');
+    console.log('Response data:-');
+    console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Error in airdropping tokens using OST API");
     }
@@ -50,6 +53,9 @@ const checkStatus = (airdrop_uuid) => {
     url: url,
     data: {}
   }).then((res) => {
+    console.log('OST Response: Checking airdrop status');
+    console.log('Response data:-');
+    console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Error in receiving airdrop status from OST API");
     }

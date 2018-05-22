@@ -15,6 +15,9 @@ const axios = require('axios');
 const executeRequestGrant = (userUuid) => {
   return executeTransaction(constants.requestGrantTransaction,
   constants.companyUuid, userUuid).then((res) => {
+    console.log('OST Response: Executed requestGrant transaction...');
+    console.log('Response data:-');
+    console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
@@ -29,6 +32,9 @@ const executeRequestGrant = (userUuid) => {
 const executeCompetitionStake = (userUuid) => {
   return executeTransaction(constants.competitionStakeTransaction,
   userUuid, constants.companyUuid).then((res) => {
+    console.log('OST Response: Executed competitionStake transaction...');
+    console.log('Response data:-');
+    console.log(res.data);
     if(!(res.data.success)) {
       return Promise.reject("Problem in updating OST User using OST API");
     };
@@ -40,7 +46,6 @@ const executeCompetitionStake = (userUuid) => {
 }
 
 const executeCompetitionReward = (userUuid, earning) => {
-  console.log("EARNING", earning);
   var transaction = null;
   if(earning == 0) { return; }
   else if(earning == 1) { transaction = constants.cRTransactionStageOne; }
@@ -51,6 +56,9 @@ const executeCompetitionReward = (userUuid, earning) => {
 
   return executeTransaction(transaction, constants.companyUuid,
     userUuid).then((res) => {
+    console.log(`OST Response: Executed ${transaction.name} transaction...`);
+    console.log('Response data:-');
+    console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };

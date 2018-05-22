@@ -66,10 +66,10 @@ const quizData = new Quiz({
 const fetchQuiz = () => {
   return Quiz.findOne({title: quizData.title}).then((quiz) => {
     if(_.isEmpty(quiz)) {
-      console.log("Returned new quiz");
+      //console.log("Returned new quiz");
       return quizData.save();
     } else {
-      console.log("Returned existing quiz");
+      //console.log("Returned existing quiz");
       return quiz;
     }
   }).catch((e) => {

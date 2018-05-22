@@ -54,6 +54,8 @@ app.post('/users/signup', (req, res) => {
     user = updatedUserWithOSTDetails
     return user.generateAuthToken();
   }).then((token) => {
+    // console.log('New user created...');
+    // console.log(user);
     res.header('x-auth', token).send(user);
   }).catch((e) => {
     console.log(e);
@@ -66,6 +68,8 @@ app.post('/users/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   User.findByCredentials(body.email, body.password).then((user) => {
     return user.generateAuthToken().then((token) => {
+      // console.log('Logged in user details...');
+      // console.log(user);
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {
@@ -140,11 +144,11 @@ validateQuizSubmission, (req, res) => {
   //var quizId = req.query.id;
   computeScore(quiz._id, quiz.answers)
   .then((score) => {
-    console.log(score);
+    // console.log(score);
     userScore = score;
     return user.updateScore(quiz._id, score);
   }).then((updatedUser) => {
-    console.log(updatedUser);
+    // console.log(updatedUser);
     const currentQuiz = updatedUser.performance.quizzes.filter((object) => {
       return object._id == quiz._id;
     })[0];
