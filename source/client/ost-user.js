@@ -33,6 +33,7 @@ const createOSTUser = (_id) => {
     });
   }).then((res) => {
     console.log('************************************************************');
+    console.log('Signing up user...');
     console.log('OST Repsonse: Details for new user...');
     console.log('Response data:-');
     console.log(res.data);
@@ -84,7 +85,6 @@ const editOSTUser = (_id, newName) => {
 // Fetches a particular user based on Uuid
 const getOSTUser = (_id) => {
   return User.findById(_id).then((user) => {
-    console.log(user);
     var uuid = user.ost_details.uuid;
     var endpoint = `/users/${uuid}`;
     var inputParams = {api_key: keys.apiKey};
@@ -93,14 +93,17 @@ const getOSTUser = (_id) => {
       endpoint, inputParams, timestamp);
     var url = ostUtils.generateUrlString(endpoint, inputParams);
     url = url.replace(`${constants.baseUrl}`,`https://sandboxapi.ost.com/v1`);
-    console.log(url);
     return axios({
         method: 'get',
         url,
         data: {}
       })
   }).then((res) => {
-    console.log(res);
+    console.log('************************************************************');
+    console.log('Logging in user...');
+    console.log('OST Repsonse: Details for existing user...');
+    console.log('Response data (Logged in user):-');
+    console.log(res.data);
     if(!(res.data.success)) {
       return Promise.reject("Problem in fetching OST User using OST API");
     };
