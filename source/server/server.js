@@ -97,9 +97,13 @@ app.post('/users/request_tokens', isLoggedIn, (req, res) => {
 // GET /users/me - Private route used for getting user information
 app.get('/users/profile', isLoggedIn, (req, res) => {
   var user = req.user;
-  fetchQuiz().then((quiz) => {
+  var fetchedUser = null;
+  ostUser.getOSTUser(user._id).then((u) => {
+    fetchedUser = u;
+    return fetchQuiz();
+  }).then((quiz) => {
     res.send({
-      user,
+      user: fetchedUser,
       quiz: quiz.getMetaData()
     });
   }).catch((e) => {

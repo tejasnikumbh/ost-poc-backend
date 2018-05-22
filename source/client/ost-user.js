@@ -81,6 +81,43 @@ const editOSTUser = (_id, newName) => {
   }); // end of axios post call
 } // end of editOSTUser
 
+// Fetches a particular user based on Uuid
+const getOSTUser = (_id) => {
+  return User.findById(_id).then((user) => {
+    console.log(user);
+    var uuid = user.ost_details.uuid;
+    var endpoint = `/users/${uuid}`;
+    var inputParams = {api_key: keys.apiKey};
+    var timestamp = ostUtils.secondsSinceEpoch();
+    var signature = ostUtils.generateApiSignatureFromParams(
+      endpoint, inputParams, timestamp);
+    var url = ostUtils.generateUrlString(endpoint, inputParams);
+    url = url.replace(`${constants.baseUrl}`,`https://sandboxapi.ost.com/v1`);
+    console.log(url);
+    return axios({
+        method: 'get',
+        url,
+        data: {}
+      })
+  }).then((res) => {
+    console.log(res);
+    if(!(res.data.success)) {
+      return Promise.reject("Problem in fetching OST User using OST API");
+    };
+    var user = res.data.data.user;
+    var updatedUser = {
+      id:user.id,
+      uuid:user.id,
+      token_balance:user.token_balance,
+      total_airdropped_tokens:user.airdropped_tokens
+    }
+    updatedUser._id = _id;
+    return User.findByIdAndUpdateWithOSTDetails(updatedUser);
+  }).catch((err) => {
+    return Promise.reject(`Error: ${err}`);;
+  });
+}// end of getOST User
+
 const getOSTUserDetails = (pageNumber) => {
   // Specifying params for request
   var endpoint = '/users/list';
@@ -123,6 +160,7 @@ const updateOSTUserDetails = function (pageNumber) {
 module.exports = {
   createOSTUser,
   editOSTUser,
+  getOSTUser,
   getOSTUserDetails,
   updateOSTUserDetails
 }
