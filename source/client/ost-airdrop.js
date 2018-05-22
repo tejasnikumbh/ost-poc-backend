@@ -32,7 +32,6 @@ const dropTokens = (amount, listType) => {
     console.log(`Company UUID is:- ${constants.companyUuid}`);
     console.log('Response data:-');
     console.log(res.data);
-    console.log('************************************************************');
     if(!(res.data.success)) {
       throw new Error("Error in airdropping tokens using OST API");
     }
@@ -60,7 +59,6 @@ const checkStatus = (airdrop_uuid) => {
     console.log(`Company UUID is:- ${constants.companyUuid}`);
     console.log('Response data:-');
     console.log(res.data);
-    console.log('************************************************************');
     if(!(res.data.success)) {
       throw new Error("Error in receiving airdrop status from OST API");
     }

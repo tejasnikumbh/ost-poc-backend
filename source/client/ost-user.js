@@ -100,7 +100,7 @@ const getOSTUser = (_id) => {
       })
   }).then((res) => {
     console.log('************************************************************');
-    console.log('Logging in user...');
+    console.log('Fetching details for existing user...');
     console.log('OST Repsonse: Details for existing user...');
     console.log('Response data (Logged in user):-');
     console.log(res.data);

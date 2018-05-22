@@ -10,7 +10,6 @@ const {authSecret} = require('./../keys/keys');
 const UserSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true,
     trim: true
   },
   age: {
@@ -240,6 +239,7 @@ UserSchema.static('updateUserTokenBalanceInDatabase', function(uuid, increment) 
   }).then((updatedUser) => {
     return Promise.resolve(updatedUser);
   }).catch((e) => {
+    console.log(e);
     return Promise.reject(e)
   });
 });
