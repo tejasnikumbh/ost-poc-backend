@@ -26,10 +26,16 @@ const port = process.env.PORT;
 
 // Add headers for access control. Middleware
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin',
+    const allowedOrigins = [
     'http://ost-alpha-frontend.herokuapp.com',
     'https://ost-alpha-frontend.herokuapp.com',
-    'http://localhost:8080');
+    'http://localhost:8080'];
+    const origin = req.headers.origin;
+    if(allowedOrigins.indexOf(origin) > -1){
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Origin',
+    );
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'x-auth, content-type');
     res.setHeader('Access-Control-Allow-Credentials', true); // for future cookies
