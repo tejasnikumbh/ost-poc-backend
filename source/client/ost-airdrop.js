@@ -29,7 +29,7 @@ const dropTokens = (amount, listType) => {
   }).then((res) => {
     console.log('************************************************************');
     console.log('OST Response: Created airdrop request...');
-    console.log(`Company UUID is:- ${constants.companyUuid}`);
+    console.log(`Airdrop contract address is:- ${constants.airdropContractAddress}`);
     console.log('Response data:-');
     console.log(res.data);
     if(!(res.data.success)) {
@@ -57,7 +57,7 @@ const checkStatus = (airdrop_uuid) => {
   }).then((res) => {
     console.log('************************************************************');
     console.log('OST Response: Checking airdrop status');
-    console.log(`Company UUID is:- ${constants.companyUuid}`);
+    console.log(`Airdrop contract address is:- ${constants.airdropContractAddress}`);
     console.log('Response data:-');
     console.log(res.data);
     if(!(res.data.success)) {
