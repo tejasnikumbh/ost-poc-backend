@@ -56,8 +56,12 @@ app.post('/users/signup', (req, res) => {
     user = updatedUserWithOSTDetails
     return user.generateAuthToken();
   }).then((token) => {
-    // console.log('New user created...');
-    // console.log(user);
+    console.log('Signed up new user successfully');
+    console.log('----------------------------------------------------------');
+    console.log('New user details ->');
+    console.log(JSON.stringify(user, undefined, 2));
+    console.log('**********************************************************');
+
     res.header('x-auth', token).send(user);
   }).catch((e) => {
     console.log(e);
@@ -70,8 +74,12 @@ app.post('/users/login', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   User.findByCredentials(body.email, body.password).then((user) => {
     return user.generateAuthToken().then((token) => {
-      // console.log('Logged in user details...');
-      // console.log(user);
+      console.log('User logged in successfully');
+      console.log('----------------------------------------------------------');
+      console.log('Logged in user details ->');
+      console.log(JSON.stringify(user, undefined, 2));
+      console.log('**********************************************************');
+
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {
@@ -88,6 +96,12 @@ app.post('/users/request_tokens', isLoggedIn, (req, res) => {
     ostTransactions.executeRequestGrant(user.ost_details.uuid).then(()=>{
       return user.save();
     }).then((newUser) => {
+      console.log('Token request granted successfully');
+      console.log('----------------------------------------------------------');
+      console.log('Updated User ->');
+      console.log(JSON.stringify(newUser, undefined, 2));
+      console.log('**********************************************************');
+
       res.status(200).send(newUser);
     }).catch((e) => {
       console.log(e);
@@ -104,6 +118,15 @@ app.get('/users/profile', isLoggedIn, (req, res) => {
     fetchedUser = u;
     return fetchQuiz();
   }).then((quiz) => {
+    console.log('Fetched user profile successfully');
+    console.log('----------------------------------------------------------');
+    console.log('User profile data ->');
+    console.log(JSON.stringify({
+      user: fetchedUser,
+      quiz: quiz.getMetaData()
+    }, undefined, 2));
+    console.log('**********************************************************');
+
     res.send({
       user: fetchedUser,
       quiz: quiz.getMetaData()
@@ -117,6 +140,9 @@ app.get('/users/profile', isLoggedIn, (req, res) => {
 // DELETE /users/logout - Used for log out
 app.delete('/users/logout', isLoggedIn, (req, res) => {
   req.user.removeToken(req.token).then((user) => {
+    console.log('User logged out successfully');
+    console.log('**********************************************************');
+
     res.status(200).send();
   }).catch((e) => {
     console.log(e);
@@ -133,6 +159,12 @@ app.get('/quiz/:id', isLoggedIn, (req, res) => {
   .then(() => {
     return Quiz.findById(quizId);
   }).then((quiz) => {
+    console.log('Quiz data fetched successfully');
+    console.log('----------------------------------------------------------');
+    console.log('Fetched quiz data ->');
+    console.log(JSON.stringify(quiz, undefined, 2));
+    console.log('**********************************************************');
+
     res.status(200).send(quiz);
   }).catch((e) => {
     console.log(e);
@@ -154,7 +186,12 @@ validateQuizSubmission, (req, res) => {
     userScore = score;
     return user.updateScore(quiz._id, score);
   }).then((updatedUser) => {
-    // console.log(updatedUser);
+    console.log('Quiz answers submitted successfully');
+    console.log('----------------------------------------------------------');
+    console.log('Updated user (with new score) ->');
+    console.log(JSON.stringify(updatedUser, undefined, 2));
+    console.log('**********************************************************');
+
     const currentQuiz = updatedUser.performance.quizzes.filter((object) => {
       return object._id == quiz._id;
     })[0];
@@ -176,7 +213,9 @@ validateQuizSubmission, (req, res) => {
 });
 
 app.listen(port, () => {
+  console.log('----------------------------------------------------------');
   console.log(`Started listening on port ${port}`);
+  console.log('----------------------------------------------------------');
 })
 
 module.exports = {app}

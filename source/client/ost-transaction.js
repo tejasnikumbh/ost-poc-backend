@@ -15,11 +15,11 @@ const axios = require('axios');
 const executeRequestGrant = (userUuid) => {
   return executeTransaction(constants.requestGrantTransaction,
   constants.companyUuid, userUuid).then((res) => {
-    console.log('************************************************************');
-    console.log('OST Response: Executed requestGrant transaction...');
-    console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
-    console.log('Response data:-');
-    console.log(res.data);
+    // console.log('************************************************************');
+    // console.log('OST Response: Executed requestGrant transaction...');
+    // console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
+    // console.log('Response data:-');
+    // console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };
@@ -34,11 +34,11 @@ const executeRequestGrant = (userUuid) => {
 const executeCompetitionStake = (userUuid) => {
   return executeTransaction(constants.competitionStakeTransaction,
   userUuid, constants.companyUuid).then((res) => {
-    console.log('************************************************************');
-    console.log('OST Response: Executed competitionStake transaction...');
-    console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
-    console.log('Response data:-');
-    console.log(res.data);
+    // console.log('************************************************************');
+    // console.log('OST Response: Executed competitionStake transaction...');
+    // console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
+    // console.log('Response data:-');
+    // console.log(res.data);
     if(!(res.data.success)) {
       return Promise.reject("Problem in updating OST User using OST API");
     };
@@ -60,11 +60,11 @@ const executeCompetitionReward = (userUuid, earning) => {
 
   return executeTransaction(transaction, constants.companyUuid,
     userUuid).then((res) => {
-    console.log('************************************************************');
-    console.log(`OST Response: Executed ${transaction.name} transaction...`);
-    console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
-    console.log('Response data:-');
-    console.log(res.data);
+    // console.log('************************************************************');
+    // console.log(`OST Response: Executed ${transaction.name} transaction...`);
+    // console.log(`Company Contract address is:- ${constants.companyContractAddress}`);
+    // console.log('Response data:-');
+    // console.log(res.data);
     if(!(res.data.success)) {
       throw new Error("Problem in updating OST User using OST API");
     };

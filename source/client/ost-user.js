@@ -32,13 +32,13 @@ const createOSTUser = (_id) => {
       }
     });
   }).then((res) => {
-    console.log('************************************************************');
-    console.log('Signing up user...');
-    console.log('OST Repsonse: Details for new user...');
-    console.log('Response data:-');
-    console.log(res.data);
-    console.log('Economy user:-');
-    console.log(res.data.data.economy_users[0]);
+    // console.log('************************************************************');
+    // console.log('Signing up user...');
+    // console.log('OST Repsonse: Details for new user...');
+    // console.log('Response data:-');
+    // console.log(res.data);
+    // console.log('Economy user:-');
+    // console.log(res.data.data.economy_users[0]);
     if(!(res.data.success)) {
       return Promise.reject("Error in creating user using OST API");
     }
@@ -99,11 +99,11 @@ const getOSTUser = (_id) => {
         data: {}
       })
   }).then((res) => {
-    console.log('************************************************************');
-    console.log('Fetching details for existing user...');
-    console.log('OST Repsonse: Details for existing user...');
-    console.log('Response data (Logged in user):-');
-    console.log(JSON.stringify(res.data, undefined, 2));
+    // console.log('************************************************************');
+    // console.log('Fetching details for existing user...');
+    // console.log('OST Repsonse: Details for existing user...');
+    // console.log('Response data (Logged in user):-');
+    // console.log(JSON.stringify(res.data, undefined, 2));
     if(!(res.data.success)) {
       return Promise.reject("Problem in fetching OST User using OST API");
     };
